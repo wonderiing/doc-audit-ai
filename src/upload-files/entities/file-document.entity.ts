@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { FileType } from "../interfaces/file-type.interface";
+import { User } from "src/auth/entities/user.entity";
 
 @Entity()
 export class FileDocument {
@@ -28,5 +29,11 @@ export class FileDocument {
 
     @Column('bool', {default: true})
     is_active: Boolean
+
+    @ManyToOne(
+        () => User,
+        (user) => user.fileDocument
+    )
+    user: User
 
 }

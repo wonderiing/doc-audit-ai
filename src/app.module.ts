@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { UploadFilesModule } from './upload-files/upload-files.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
 
@@ -23,6 +24,8 @@ import { UploadFilesModule } from './upload-files/upload-files.module';
     }),
 
     UploadFilesModule,
+
+    AuthModule,
 
   ],
   controllers: [AppController],
