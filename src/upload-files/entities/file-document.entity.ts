@@ -32,7 +32,8 @@ export class FileDocument {
 
     @ManyToOne(
         () => User,
-        (user) => user.fileDocument
+        (user) => user.fileDocument,
+        {eager: true}
     )
     user: User
 

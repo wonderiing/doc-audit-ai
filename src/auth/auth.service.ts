@@ -6,6 +6,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt'
 import { JwtService } from '@nestjs/jwt';
+import { PaginationDto } from 'src/common/dtos/paginatios.dto';
 
 @Injectable()
 export class AuthService {
@@ -58,6 +59,41 @@ export class AuthService {
     }
 
     return registerUserDto
+  }
+
+  async findAll(paginationDto: PaginationDto) {
+
+    const { limit = 5, offset = 0 } = paginationDto
+
+    const users = await this.userRepository.find({
+      take: limit,
+      skip: offset,
+    })
+
+    return users
+  }
+
+  async findOne(id: number) {
+
+    const user = await this.userRepository.findOneBy({id})
+
+    if (!user) throw new NotFoundException(`User with id ${id} was not found`)
+
+    return user
+
+  }
+
+  async deactivateUser(id: number) {
+
+    const user = await this.findOne(id)
+
+    user.isActive = false
+
+    return {
+      message: `user with id ${id} was deactivated`,
+      user
+    }
+
   }
 
   private handleDbExceptions(error: any) {

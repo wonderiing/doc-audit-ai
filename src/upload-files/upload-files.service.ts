@@ -7,6 +7,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FileDocument } from './entities/file-document.entity';
 import { Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
+import { User } from 'src/auth/entities/user.entity';
+import { PaginationDto } from 'src/common/dtos/paginatios.dto';
 
 @Injectable()
 export class UploadFilesService {
@@ -29,8 +31,10 @@ export class UploadFilesService {
     return path
    }
 
-   async create( file: Express.Multer.File) {
-    
+   async create( file: Express.Multer.File, user: User) {
+
+
+    if (!file) throw new BadRequestException(`File was not found`)
     const {mimetype, filename} = file
 
     const secureUrl = `${ this.configService.get('HOST_API')}/upload-files/files/${filename}`
@@ -41,17 +45,32 @@ export class UploadFilesService {
       url: secureUrl,
       type
     }
-    
     try {
 
-      const fileDocument = this.fileDocumentRepository.create(createFileDocumentDto)
+      const fileDocument = this.fileDocumentRepository.create({
+        user,
+        ...createFileDocumentDto
+      })
       await this.fileDocumentRepository.save(fileDocument)
       return fileDocument
     } catch(error) {
-      
+      console.log(error)
       throw new InternalServerErrorException(`Something went wrong check server logs`)
     }
-    
+  
+  }
+
+  async findAll(paginationDto: PaginationDto) {
+
+    const {limit = 5, offset = 0} = paginationDto
+
+    const files = await this.fileDocumentRepository.find({
+      take: limit,
+      skip: offset,
+      select: {user: {createdAt: false}}
+    })
+
+    return files
 
   }
 }

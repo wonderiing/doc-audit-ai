@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { UploadFilesModule } from './upload-files/upload-files.module';
 import { AuthModule } from './auth/auth.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
 
@@ -26,6 +27,8 @@ import { AuthModule } from './auth/auth.module';
     UploadFilesModule,
 
     AuthModule,
+
+    CommonModule,
 
   ],
   controllers: [AppController],
