@@ -17,6 +17,7 @@ export class TextExtraction {
     @OneToOne(
         () => FileDocument,
         (file) => file.text_extraction,
+        {onDelete: 'CASCADE'}
     )
     @JoinColumn()
     file: FileDocument

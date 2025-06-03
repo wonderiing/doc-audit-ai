@@ -9,7 +9,10 @@ import { Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { User } from 'src/auth/entities/user.entity';
 import { PaginationDto } from 'src/common/dtos/paginatios.dto';
+import {extname} from 'path'
 
+
+//TODO: Patch method for audited docx and exceptions for findOne
 @Injectable()
 export class UploadFilesService {
 
@@ -33,12 +36,11 @@ export class UploadFilesService {
 
    async create( file: Express.Multer.File, user: User) {
 
-
     if (!file) throw new BadRequestException(`File was not found`)
     const {mimetype, filename} = file
 
     const secureUrl = `${ this.configService.get('HOST_API')}/upload-files/files/${filename}`
-    const type = mimetype.split('/')[1] as FileType
+    const type = extname(file.originalname).toLowerCase() as FileType
 
     const createFileDocumentDto: CreateFileDocumentDto = {
       filename,
@@ -74,13 +76,13 @@ export class UploadFilesService {
 
   }
 
-  async findOne(id: number, type: FileType) {
+  async findOne(id: number) {
 
     const file = await this.fileDocumentRepository.findOne({
-      where: {id, type},
+      where: {id},
     }) 
 
-    if (!file) throw new NotFoundException(`File with id ${id} was not found or extension is not ${type}`)
+    if (!file) throw new NotFoundException(`File with id ${id} was not found`)
 
     return file
 

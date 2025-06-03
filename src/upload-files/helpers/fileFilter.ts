@@ -1,5 +1,7 @@
 import { BadRequestException } from "@nestjs/common"
+import {extname} from 'path'
 import { FileType } from "../interfaces/file-type.interface"
+
 
 export const fileFilter = (
     req: Express.Request, file: Express.Multer.File, callback: Function
@@ -7,8 +9,10 @@ export const fileFilter = (
 
     // TODO: Tirar error unsupported fileext
 
-    const fileExtension = file.mimetype.split('/')[1]
-    const validExtension = ['pdf', 'jpg', 'png', 'docx', 'text', 'csv']
+
+    const fileExtension = extname(file.originalname).toLowerCase()
+    console.log(fileExtension)
+    const validExtension = ['.pdf', '.jpg', '.png', '.docx', '.txt', '.csv']
 
     if (validExtension.includes(fileExtension))
         return callback(null, true)

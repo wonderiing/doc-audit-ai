@@ -1,11 +1,11 @@
 
 export enum FileType {
 
-    pdf = 'pdf',
-    docx = 'docx',
+    pdf = '.pdf',
     jpg = 'jpg',
     png = 'png',
     xlsx = 'xlsx',
     text = 'text',
-    csv = 'csv'
+    csv = '.csv',
+    docx = '.docx'
 }
