@@ -1,6 +1,7 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { FileType } from "../interfaces/file-type.interface";
 import { User } from "src/auth/entities/user.entity";
+import { TextExtraction } from "src/text-extraction/entities/text-extraction.entity";
 
 @Entity()
 export class FileDocument {
@@ -36,5 +37,13 @@ export class FileDocument {
         {eager: true}
     )
     user: User
+
+    @OneToOne(
+        () => TextExtraction,
+        (textExtraction) => textExtraction.file,
+        {cascade: true} 
+    )
+    text_extraction: TextExtraction
+
 
 }

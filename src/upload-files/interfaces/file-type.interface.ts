@@ -6,5 +6,6 @@ export enum FileType {
     jpg = 'jpg',
     png = 'png',
     xlsx = 'xlsx',
-    text = 'text'
+    text = 'text',
+    csv = 'csv'
 }

@@ -16,6 +16,9 @@ import { JwtModule } from '@nestjs/jwt';
     ConfigModule,
     PassportModule.register({defaultStrategy: 'jwt'})  ,
     JwtModule
+  ],
+  exports: [
+    UploadFilesService
   ]
 })
 export class UploadFilesModule {}

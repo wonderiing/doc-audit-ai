@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { existsSync } from 'fs';
 import { join } from 'path';
 import { CreateFileDocumentDto } from './dto/create-file-document.dto';
@@ -71,6 +71,18 @@ export class UploadFilesService {
     })
 
     return files
+
+  }
+
+  async findOne(id: number, type: FileType) {
+
+    const file = await this.fileDocumentRepository.findOne({
+      where: {id, type},
+    }) 
+
+    if (!file) throw new NotFoundException(`File with id ${id} was not found or extension is not ${type}`)
+
+    return file
 
   }
 }

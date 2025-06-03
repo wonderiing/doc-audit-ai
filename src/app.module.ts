@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UploadFilesModule } from './upload-files/upload-files.module';
 import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
+import { TextExtractionModule } from './text-extraction/text-extraction.module';
 
 @Module({
 
@@ -29,6 +30,8 @@ import { CommonModule } from './common/common.module';
     AuthModule,
 
     CommonModule,
+
+    TextExtractionModule,
 
   ],
   controllers: [AppController],
