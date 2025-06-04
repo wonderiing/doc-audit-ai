@@ -12,7 +12,7 @@ export const fileFilter = (
 
     const fileExtension = extname(file.originalname).toLowerCase()
     console.log(fileExtension)
-    const validExtension = ['.pdf', '.jpg', '.png', '.docx', '.txt', '.csv']
+    const validExtension = ['.pdf', '.jpg', '.png', '.docx', '.txt', '.csv', '.xlsx']
 
     if (validExtension.includes(fileExtension))
         return callback(null, true)
