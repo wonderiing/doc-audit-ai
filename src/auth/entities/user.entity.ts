@@ -1,6 +1,6 @@
 import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { UserRoles } from "../interfaces/user-role.interface";
-import { FileDocument } from "src/upload-files/entities/file-document.entity";
+import { FileDocument } from "src/files/entities/file-document.entity";
 import * as bcrypt from 'bcrypt'
 
 @Entity()
