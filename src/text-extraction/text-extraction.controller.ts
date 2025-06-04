@@ -31,4 +31,9 @@ export class TextExtractionController {
   parseExcel(@Param('id', ParseIntPipe) id: number) {
     return this.textExtractionService.parseExcel(id)
   }
+
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.textExtractionService.findOne(id)
+  }
 }

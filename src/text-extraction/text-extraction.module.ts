@@ -3,7 +3,7 @@ import { TextExtractionService } from './text-extraction.service';
 import { TextExtractionController } from './text-extraction.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TextExtraction } from './entities/text-extraction.entity';
-import { UploadFilesModule } from 'src/upload-files/upload-files.module';
+import { FilesModule } from 'src/files/files.module';
 import { PassportModule } from '@nestjs/passport';
 
 @Module({
@@ -13,7 +13,7 @@ import { PassportModule } from '@nestjs/passport';
     TypeOrmModule.forFeature([
       TextExtraction
     ]),
-    UploadFilesModule,
+    FilesModule,
     PassportModule.register({defaultStrategy: 'jwt'})  ,
   ]
 })

@@ -1,11 +1,11 @@
 import * as fs from 'fs'
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import * as pdfParse from 'pdf-parse'
-import { UploadFilesService } from 'src/upload-files/upload-files.service';
+import { FilesService } from 'src/files/files.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TextExtraction } from './entities/text-extraction.entity';
 import { Repository } from 'typeorm';
-import { FileType } from 'src/upload-files/interfaces/file-type.interface';
+import { FileType } from 'src/files/interfaces/file-type.interface';
 import * as mammoth from 'mammoth'
 import { cleanText } from './helper/cleanText.helper';
 import * as XLSX from 'xlsx'
@@ -15,7 +15,7 @@ import * as XLSX from 'xlsx'
 export class TextExtractionService {
 
   constructor(
-    private readonly uploadFileService: UploadFilesService,
+    private readonly fileService: FilesService,
     @InjectRepository(TextExtraction)
     private readonly textExtractionRepository: Repository<TextExtraction>
   ) {
@@ -23,9 +23,9 @@ export class TextExtractionService {
   }
 
   async getFileInfo(id: number, fileType: FileType) {
-    const file = await this.uploadFileService.findOne(id)
+    const file = await this.fileService.findOne(id)
 
-    const path = this.uploadFileService.getStaticFileName(file.filename)
+    const path = this.fileService.getStaticFileName(file.filename)
 
     if (file.type !== fileType) throw new BadRequestException(`File with id ${file.id} is not a ${fileType}`)
 
@@ -125,10 +125,6 @@ export class TextExtractionService {
     } catch(error) {
       this.handleDbExceptions(error)
     }
-
-
-
-
   }
 
   handleDbExceptions(error: any) {
@@ -137,5 +133,16 @@ export class TextExtractionService {
     throw new InternalServerErrorException(`Something went wrong check logs`)
   }
 
+
+  async findOne(id: number) {
+
+    const textExtraction = await this.textExtractionRepository.findOneBy({
+      id
+    })
+
+    if (!textExtraction) throw new BadRequestException(`Text Extraction with id ${id} was not found`)
+
+    return textExtraction
+  }
 
 }

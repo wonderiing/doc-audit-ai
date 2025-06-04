@@ -1,4 +1,4 @@
-import { FileDocument } from "src/upload-files/entities/file-document.entity";
+import { FileDocument } from "src/files/entities/file-document.entity";
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -17,7 +17,7 @@ export class TextExtraction {
     @OneToOne(
         () => FileDocument,
         (file) => file.text_extraction,
-        {onDelete: 'CASCADE'}
+        {onDelete: 'CASCADE', eager: true}
     )
     @JoinColumn()
     file: FileDocument

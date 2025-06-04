@@ -14,7 +14,7 @@ import {extname} from 'path'
 
 //TODO: Patch method for audited docx and exceptions for findOne
 @Injectable()
-export class UploadFilesService {
+export class FilesService {
 
   constructor(
     @InjectRepository(FileDocument)
@@ -39,7 +39,7 @@ export class UploadFilesService {
     if (!file) throw new BadRequestException(`File was not found`)
     const {mimetype, filename} = file
 
-    const secureUrl = `${ this.configService.get('HOST_API')}/upload-files/files/${filename}`
+    const secureUrl = `${ this.configService.get('HOST_API')}/files/files/${filename}`
     const type = extname(file.originalname).toLowerCase() as FileType
 
     const createFileDocumentDto: CreateFileDocumentDto = {
@@ -69,6 +69,7 @@ export class UploadFilesService {
     const files = await this.fileDocumentRepository.find({
       take: limit,
       skip: offset,
+      where: {is_active: true},
       select: {user: {createdAt: false}}
     })
 
@@ -79,12 +80,21 @@ export class UploadFilesService {
   async findOne(id: number) {
 
     const file = await this.fileDocumentRepository.findOne({
-      where: {id},
+      where: {id, is_active: true},
     }) 
 
     if (!file) throw new NotFoundException(`File with id ${id} was not found`)
 
     return file
 
+  }
+
+  async delete(id: number) {
+
+    const file = await this.findOne(id)
+
+    file.is_active = false
+
+    await this.fileDocumentRepository.save(file)
   }
 }

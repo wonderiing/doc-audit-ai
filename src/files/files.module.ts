@@ -1,16 +1,15 @@
 import { Module } from '@nestjs/common';
-import { UploadFilesService } from './upload-files.service';
-import { UploadFilesController } from './upload-files.controller';
+import { FilesService } from './files.service';
+import { FilesController } from './files.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FileType } from './interfaces/file-type.interface';
 import { FileDocument } from './entities/file-document.entity';
 import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  controllers: [UploadFilesController],
-  providers: [UploadFilesService],
+  controllers: [FilesController],
+  providers: [FilesService],
   imports: [
     TypeOrmModule.forFeature([FileDocument]),
     ConfigModule,
@@ -18,7 +17,7 @@ import { JwtModule } from '@nestjs/jwt';
     JwtModule
   ],
   exports: [
-    UploadFilesService
+    FilesService
   ]
 })
-export class UploadFilesModule {}
+export class FilesModule {}

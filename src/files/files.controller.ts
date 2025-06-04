@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, BadRequestException, Res, Query, ParseIntPipe } from '@nestjs/common';
-import { UploadFilesService } from './upload-files.service';
+import { FilesService } from './files.service';
 import { CreateFileDocumentDto } from './dto/create-file-document.dto';
 import { UpdateFileDocumentDto } from './dto/update-upload-file.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -13,11 +13,12 @@ import { Auth } from 'src/auth/decorators/auth.decorator';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { User } from 'src/auth/entities/user.entity';
 import { PaginationDto } from 'src/common/dtos/paginatios.dto';
+import { UserRoles } from 'src/auth/interfaces/user-role.interface';
 
-@Controller('upload-files')
-export class UploadFilesController {
+@Controller('files')
+export class FilesController {
   constructor(
-    private readonly uploadFilesService: UploadFilesService,
+    private readonly fileService: FilesService,
     private readonly configService: ConfigService
   ) {}
 
@@ -27,7 +28,7 @@ export class UploadFilesController {
     @Res() res: Response,
     @Param('fileName') fileName: string
   ) {
-    const path = this.uploadFilesService.getStaticFileName(fileName)
+    const path = this.fileService.getStaticFileName(fileName)
     
     res.sendFile(path)
   }
@@ -46,12 +47,25 @@ export class UploadFilesController {
     @UploadedFile() file: Express.Multer.File,
     @GetUser() user: User
   ) {
-    return this.uploadFilesService.create(file, user)
+    return this.fileService.create(file, user)
   }
 
   @Get()
+  @Auth()
   findAll(@Query() pagintaionDto: PaginationDto){
-    return this.uploadFilesService.findAll(pagintaionDto)
+    return this.fileService.findAll(pagintaionDto)
+  }
+
+  @Get(':id')
+  @Auth()
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.fileService.findOne(id)
+  }
+
+  @Delete(':id')
+  @Auth(UserRoles.admin, UserRoles.auditor)
+  delete(@Param('id', ParseIntPipe)id: number) {
+    return this.fileService.delete(id)
   }
 
 
