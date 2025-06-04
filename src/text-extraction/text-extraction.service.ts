@@ -9,6 +9,7 @@ import { FileType } from 'src/files/interfaces/file-type.interface';
 import * as mammoth from 'mammoth'
 import { cleanText } from './helper/cleanText.helper';
 import * as XLSX from 'xlsx'
+import { getStaticFileName } from 'src/files/helpers/getStaticFileName';
 
 
 @Injectable()
@@ -25,7 +26,7 @@ export class TextExtractionService {
   async getFileInfo(id: number, fileType: FileType) {
     const file = await this.fileService.findOne(id)
 
-    const path = this.fileService.getStaticFileName(file.filename)
+    const path = getStaticFileName(file.filename)
 
     if (file.type !== fileType) throw new BadRequestException(`File with id ${file.id} is not a ${fileType}`)
 

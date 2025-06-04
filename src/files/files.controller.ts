@@ -14,6 +14,7 @@ import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { User } from 'src/auth/entities/user.entity';
 import { PaginationDto } from 'src/common/dtos/paginatios.dto';
 import { UserRoles } from 'src/auth/interfaces/user-role.interface';
+import { getStaticFileName } from './helpers/getStaticFileName';
 
 @Controller('files')
 export class FilesController {
@@ -23,12 +24,12 @@ export class FilesController {
   ) {}
 
   //TODO: protect this route
-  @Get('files/:fileName')
+  @Get('see-file/:fileName')
   findFile(
     @Res() res: Response,
     @Param('fileName') fileName: string
   ) {
-    const path = this.fileService.getStaticFileName(fileName)
+    const path = getStaticFileName(fileName)
     
     res.sendFile(path)
   }

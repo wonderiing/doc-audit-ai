@@ -24,22 +24,12 @@ export class FilesService {
 
   }
 
-  getStaticFileName(fileName: string) {
-
-    const path = join(__dirname, '../../static/files', fileName)
-
-    if (!existsSync(path)) {
-      throw new BadRequestException(`No File found with name ${fileName}`)
-    }
-    return path
-   }
-
    async create( file: Express.Multer.File, user: User) {
 
     if (!file) throw new BadRequestException(`File was not found`)
     const {mimetype, filename} = file
 
-    const secureUrl = `${ this.configService.get('HOST_API')}/files/files/${filename}`
+    const secureUrl = `${ this.configService.get('HOST_API')}/files/see-file/${filename}`
     const type = extname(file.originalname).toLowerCase() as FileType
 
     const createFileDocumentDto: CreateFileDocumentDto = {
