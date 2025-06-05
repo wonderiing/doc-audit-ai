@@ -8,6 +8,10 @@ export class AiController {
   constructor(private readonly aiService: AiService) {}
 
 
+
+  /* 
+  Receives a TextExtractionEntity id
+  */
   @Post(':id')
   @Auth(UserRoles.auditor)
   aiAnalysis(@Param('id', ParseIntPipe) id: number) {
