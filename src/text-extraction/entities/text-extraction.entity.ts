@@ -1,3 +1,4 @@
+import { AiAnalysis } from "src/ai/entities/ai-analysis.entity";
 import { FileDocument } from "src/files/entities/file-document.entity";
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
@@ -21,5 +22,12 @@ export class TextExtraction {
     )
     @JoinColumn()
     file: FileDocument
+
+    @OneToOne(
+        () => AiAnalysis,
+        (aiAnalysis) => aiAnalysis.text_extraction,
+        {onDelete: 'CASCADE'}
+    )
+    ai_analysis: AiAnalysis
 
 }
