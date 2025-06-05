@@ -7,6 +7,7 @@ import { FilesModule } from './files/files.module';
 import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
 import { TextExtractionModule } from './text-extraction/text-extraction.module';
+import { AiModule } from './ai/ai.module';
 
 @Module({
 
@@ -32,6 +33,8 @@ import { TextExtractionModule } from './text-extraction/text-extraction.module';
     CommonModule,
 
     TextExtractionModule,
+
+    AiModule,
 
   ],
   controllers: [AppController],
