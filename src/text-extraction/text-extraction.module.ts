@@ -15,6 +15,9 @@ import { PassportModule } from '@nestjs/passport';
     ]),
     FilesModule,
     PassportModule.register({defaultStrategy: 'jwt'})  ,
+  ],
+  exports: [
+    TextExtractionService
   ]
 })
 export class TextExtractionModule {}
