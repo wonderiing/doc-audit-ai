@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, BadRequestException, Res, Query, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, BadRequestException, Res, Query, ParseIntPipe, ParseFilePipeBuilder } from '@nestjs/common';
 import { FilesService } from './files.service';
 import { CreateFileDocumentDto } from './dto/create-file-document.dto';
 import { UpdateFileDocumentDto } from './dto/update-upload-file.dto';
@@ -37,7 +37,7 @@ export class FilesController {
   @Post()
   @UseInterceptors( FileInterceptor('file', {
     fileFilter: fileFilter,
-    limits: {fileSize: 10000000},
+    limits: {fileSize: 100000000},
     storage: diskStorage({
       destination: './static/files',
       filename: fileNamer

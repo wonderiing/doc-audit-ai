@@ -7,8 +7,6 @@ export const fileFilter = (
     req: Express.Request, file: Express.Multer.File, callback: Function
 ) => {
 
-    // TODO: Tirar error unsupported fileext
-
 
     const fileExtension = extname(file.originalname).toLowerCase()
     console.log(fileExtension)
