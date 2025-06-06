@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateFileDocumentDto } from './dto/create-file-document.dto';
 import { FileType } from './interfaces/file-type.interface';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { User } from 'src/auth/entities/user.entity';
 import { PaginationDto } from 'src/common/dtos/paginatios.dto';
 import {extname} from 'path'
+import { TextExtractionService } from 'src/text-extraction/text-extraction.service';
 
 
 //TODO: Patch method for audited docx and exceptions for findOne
@@ -17,10 +18,12 @@ export class FilesService {
   constructor(
     @InjectRepository(FileDocument)
     private readonly fileDocumentRepository: Repository<FileDocument>,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
   ) {
 
   }
+  private readonly logger = new Logger(FilesService.name)
+  
 
    async create( file: Express.Multer.File, user: User) {
 
@@ -84,5 +87,12 @@ export class FilesService {
     file.is_active = false
 
     await this.fileDocumentRepository.save(file)
+  }
+
+    handleDbExceptions(error: any) {
+    this.logger.error('DB Exception', error.stack);
+    if (error.code === '23505') throw new BadRequestException(`File id: ${error.detail}. `)
+    console.log(error)
+    throw new InternalServerErrorException(`Something went wrong check logs`)
   }
 }

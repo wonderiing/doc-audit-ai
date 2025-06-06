@@ -27,7 +27,8 @@ export class AuditRecord {
     
     @OneToOne(
         () => FileDocument,
-        (fileDocument ) => fileDocument.auditRecord
+        (fileDocument ) => fileDocument.auditRecord,
+        {onDelete: 'CASCADE'}
     )
     @JoinColumn()
     file: FileDocument

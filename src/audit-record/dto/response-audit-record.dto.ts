@@ -1,6 +1,6 @@
 import { AuditRecordStatus } from "../interfaces/auditRecordStatus.interface"
 
-export class ReponseAuditRecordDto {
+export class ResponseAuditRecordDto {
   id: number
   fileId: number
   auditedAt: Date

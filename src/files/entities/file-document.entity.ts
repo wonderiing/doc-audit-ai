@@ -4,6 +4,8 @@ import { User } from "src/auth/entities/user.entity";
 import { TextExtraction } from "src/text-extraction/entities/text-extraction.entity";
 import { AuditRecord } from "src/audit-record/entities/audit-record.entity";
 
+//TODO: change cascade: false
+
 @Entity()
 export class FileDocument {
 
@@ -47,6 +49,7 @@ export class FileDocument {
     @OneToOne(
         () => AuditRecord,
         (auditRecord) => auditRecord.file,
+        {cascade: true}
     ) 
     auditRecord: AuditRecord
 

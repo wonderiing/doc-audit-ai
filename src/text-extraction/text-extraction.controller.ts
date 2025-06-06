@@ -15,22 +15,22 @@ export class TextExtractionController {
     Recieves a fileId
   */
   
-  @Post('parse-pdf/:id')
+  @Get('parse-pdf/:id')
   parsePdf(@Param('id', ParseIntPipe) id: number) {
     return this.textExtractionService.parsePdf(id)
   }
   
-  @Post('parse-docx/:id')
+  @Get('parse-docx/:id')
   parseDocx(@Param('id', ParseIntPipe) id: number) {
     return this.textExtractionService.parseDocx(id)
   }
   
-  @Post('parse-csv/:id')
+  @Get('parse-csv/:id')
   parseCsv(@Param('id', ParseIntPipe) id: number) {
     return this.textExtractionService.parseCsv(id)
   }
   
-  @Post('parse-excel/:id')
+  @Get('parse-excel/:id')
   parseExcel(@Param('id', ParseIntPipe) id: number) {
     return this.textExtractionService.parseExcel(id)
   }

@@ -6,6 +6,7 @@ import { FileDocument } from './entities/file-document.entity';
 import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
+import { TextExtractionModule } from 'src/text-extraction/text-extraction.module';
 
 @Module({
   controllers: [FilesController],
@@ -14,7 +15,8 @@ import { JwtModule } from '@nestjs/jwt';
     TypeOrmModule.forFeature([FileDocument]),
     ConfigModule,
     PassportModule.register({defaultStrategy: 'jwt'})  ,
-    JwtModule
+    JwtModule,
+    
   ],
   exports: [
     FilesService
