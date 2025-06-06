@@ -26,7 +26,7 @@ export class TextExtraction {
     @OneToOne(
         () => AiAnalysis,
         (aiAnalysis) => aiAnalysis.text_extraction,
-        {onDelete: 'CASCADE'}
+        {cascade: true}
     )
     ai_analysis: AiAnalysis
 

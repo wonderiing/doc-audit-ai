@@ -1,6 +1,4 @@
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { existsSync } from 'fs';
-import { join } from 'path';
 import { CreateFileDocumentDto } from './dto/create-file-document.dto';
 import { FileType } from './interfaces/file-type.interface';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -27,7 +25,7 @@ export class FilesService {
    async create( file: Express.Multer.File, user: User) {
 
     if (!file) throw new BadRequestException(`File was not found`)
-    const {mimetype, filename} = file
+    const {filename} = file
 
     const secureUrl = `${ this.configService.get('HOST_API')}/files/see-file/${filename}`
     const type = extname(file.originalname).toLowerCase() as FileType

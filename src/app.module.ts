@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
 import { TextExtractionModule } from './text-extraction/text-extraction.module';
 import { AiModule } from './ai/ai.module';
+import { AuditRecordModule } from './audit-record/audit-record.module';
 
 @Module({
 
@@ -35,6 +36,8 @@ import { AiModule } from './ai/ai.module';
     TextExtractionModule,
 
     AiModule,
+
+    AuditRecordModule,
 
   ],
   controllers: [AppController],

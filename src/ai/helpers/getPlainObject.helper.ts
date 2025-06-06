@@ -6,10 +6,10 @@ import { AiAnalysis } from "../entities/ai-analysis.entity"
     const response = plainToInstance(AiAnalysisResponseDto, {
         id: aiAnalysis.id,
         aiResponse: aiAnalysis.ai_response,
-        textExtractionId: aiAnalysis.text_extraction.id,
+        fileId: aiAnalysis.text_extraction.file.id,
         analyzedAt: aiAnalysis.analyzed_at,
         rawText: aiAnalysis.text_extraction.raw_text
       })
-
+    
     return response
   }

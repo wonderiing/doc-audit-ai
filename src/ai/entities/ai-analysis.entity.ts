@@ -1,3 +1,4 @@
+import { AuditRecord } from "src/audit-record/entities/audit-record.entity";
 import { TextExtraction } from "src/text-extraction/entities/text-extraction.entity";
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
@@ -10,7 +11,7 @@ export class AiAnalysis {
     @OneToOne(
         () => TextExtraction,
         (textExtraction) => textExtraction.ai_analysis,
-        
+        {onDelete: 'CASCADE', eager: true}
     )
     @JoinColumn()
     text_extraction: TextExtraction
@@ -20,5 +21,11 @@ export class AiAnalysis {
     
     @Column({type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     analyzed_at: Date
+
+    @OneToOne(
+        () => AuditRecord,
+        (auditRecord) => auditRecord.aiAnalysis
+    )
+    auditRecord: AuditRecord
 
 }

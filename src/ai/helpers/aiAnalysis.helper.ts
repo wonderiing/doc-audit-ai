@@ -1,4 +1,5 @@
 
+import { BadRequestException } from '@nestjs/common';
 import OpenAI from 'openai';
 
 
@@ -18,6 +19,8 @@ export const analyzeFileText = async (rawText: string) => {
               Aquí está el documento para analizar:
               ${rawText}`,
             })
+
+    if (!response) throw new BadRequestException(`Something went wrong with IA`)
 
     const aiResponse: string = response.output_text
     return aiResponse

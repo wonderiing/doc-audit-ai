@@ -2,6 +2,7 @@ import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 
 import { UserRoles } from "../interfaces/user-role.interface";
 import { FileDocument } from "src/files/entities/file-document.entity";
 import * as bcrypt from 'bcrypt'
+import { AuditRecord } from "src/audit-record/entities/audit-record.entity";
 
 @Entity()
 export class User {
@@ -39,6 +40,11 @@ export class User {
     fileDocument: FileDocument
 
 
+    @OneToMany(
+        () => AuditRecord,
+        (auditRecord) => auditRecord.user
+    )
+    auditRecord: AuditRecord
     
     @BeforeInsert()
     hashPassword() {

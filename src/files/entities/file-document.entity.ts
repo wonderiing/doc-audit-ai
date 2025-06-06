@@ -2,6 +2,7 @@ import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typ
 import { FileType } from "../interfaces/file-type.interface";
 import { User } from "src/auth/entities/user.entity";
 import { TextExtraction } from "src/text-extraction/entities/text-extraction.entity";
+import { AuditRecord } from "src/audit-record/entities/audit-record.entity";
 
 @Entity()
 export class FileDocument {
@@ -25,9 +26,6 @@ export class FileDocument {
     @Column({type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     uploaded_at: Date
 
-    @Column('bool', {default: false})
-    been_audited: Boolean
-
     @Column('bool', {default: true})
     is_active: Boolean
 
@@ -41,9 +39,15 @@ export class FileDocument {
     @OneToOne(
         () => TextExtraction,
         (textExtraction) => textExtraction.file,
-        {cascade: true} 
+        {cascade: true}
     )
     text_extraction: TextExtraction
 
+
+    @OneToOne(
+        () => AuditRecord,
+        (auditRecord) => auditRecord.file,
+    ) 
+    auditRecord: AuditRecord
 
 }
