@@ -1,5 +1,5 @@
 import * as fs from 'fs'
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import * as pdfParse from 'pdf-parse'
 import { FilesService } from 'src/files/files.service';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -18,10 +18,11 @@ export class TextExtractionService {
   constructor(
     private readonly fileService: FilesService,
     @InjectRepository(TextExtraction)
-    private readonly textExtractionRepository: Repository<TextExtraction>
+    private readonly textExtractionRepository: Repository<TextExtraction>,
   ) {
-
+    
   }
+  private readonly logger = new Logger(TextExtractionService.name)
 
   async getFileInfo(id: number, fileType: FileType) {
     const file = await this.fileService.findOne(id)
@@ -129,6 +130,8 @@ export class TextExtractionService {
   }
 
   handleDbExceptions(error: any) {
+    this.logger.error('DB Exception', error.stack);
+
     if (error.code === '23505') throw new BadRequestException(`Already parsed file with id: ${error.detail}. `)
     console.log(error)
     throw new InternalServerErrorException(`Something went wrong check logs`)

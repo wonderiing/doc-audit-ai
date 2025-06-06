@@ -9,7 +9,7 @@ import {ReponseAuditRecordDto} from "../dto/response-audit-record.dto"
         auditedAt: auditRecord.audited_at,
         notes: auditRecord.notes,
         status: auditRecord.status,
-        aiAnalysisDto: auditRecord.aiAnalysis.id,
+        aiAnalysis: auditRecord.aiAnalysis.id,
         userId: auditRecord.user.id
 
       })

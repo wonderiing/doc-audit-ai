@@ -11,6 +11,9 @@ import { UserRoles } from 'src/auth/interfaces/user-role.interface';
 export class TextExtractionController {
   constructor(private readonly textExtractionService: TextExtractionService) {}
   
+  /*
+    Recieves a fileId
+  */
   
   @Post('parse-pdf/:id')
   parsePdf(@Param('id', ParseIntPipe) id: number) {
