@@ -25,10 +25,11 @@ Auditing Module: Allows auditors to review, annotate, and approve/reject documen
 Workflow Module: Orchestrates the end-to-end processing pipeline for a seamless document audit experience.
 
 ## Project setup
+1. Install ```npm install```
 
-```bash
-$ npm install
-```
+
+2. Copy ```env.example``` and set the variables
+
 
 ## Compile and run the project
 
