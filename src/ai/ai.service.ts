@@ -18,6 +18,7 @@ export class AiService {
 
   }
 
+  //TODO: Implements all methods find and findOne
 
   async findExistingAnalysis(textExtractionId: number) {
     return this.aiAnalysisRepository.findOne({

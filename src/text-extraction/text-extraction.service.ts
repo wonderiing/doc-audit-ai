@@ -131,7 +131,6 @@ export class TextExtractionService {
 
   handleDbExceptions(error: any) {
     this.logger.error('DB Exception', error.stack);
-
     if (error.code === '23505') throw new BadRequestException(`Already parsed file with id: ${error.detail}. `)
     console.log(error)
     throw new InternalServerErrorException(`Something went wrong check logs`)
