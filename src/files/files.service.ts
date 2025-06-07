@@ -53,7 +53,7 @@ export class FilesService {
   
   }
 
-  async findAll(paginationDto: PaginationDto) {
+  async findAll(paginationDto: PaginationDto): Promise<FileDocument[]> {
 
     const {limit = 5, offset = 0} = paginationDto
 
@@ -68,7 +68,7 @@ export class FilesService {
 
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<FileDocument> {
 
     const file = await this.fileDocumentRepository.findOne({
       where: {id, is_active: true},
@@ -80,7 +80,7 @@ export class FilesService {
 
   }
 
-  async delete(id: number) {
+  async delete(id: number): Promise<void> {
 
     const file = await this.findOne(id)
 

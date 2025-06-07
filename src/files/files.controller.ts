@@ -23,7 +23,6 @@ export class FilesController {
     private readonly configService: ConfigService
   ) {}
 
-  //TODO: protect this route
   @Get('see-file/:fileName')
   findFile(
     @Res() res: Response,

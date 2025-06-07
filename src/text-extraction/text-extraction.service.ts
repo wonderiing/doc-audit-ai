@@ -24,7 +24,8 @@ export class TextExtractionService {
   }
   private readonly logger = new Logger(TextExtractionService.name)
 
-  async getFileInfo(id: number, fileType: FileType) {
+
+async getFileInfo(id: number, fileType: FileType) {
     const file = await this.fileService.findOne(id)
 
     const path = getStaticFileName(file.filename)
@@ -34,7 +35,7 @@ export class TextExtractionService {
     return {path, file}
   }
 
-  async parsePdf(id: number) {
+  async parsePdf(id: number): Promise<TextExtraction> {
 
     const {file, path} = await this.getFileInfo(id, FileType.pdf)
 
@@ -42,19 +43,19 @@ export class TextExtractionService {
     const {text} =  await pdfParse(dataBuffer)
 
 
-    const textExtractionObject = this.textExtractionRepository.create({
+    const textExtraction = this.textExtractionRepository.create({
       raw_text: cleanText(text),
       file
     })
     try {
-      await this.textExtractionRepository.save(textExtractionObject)
-      return textExtractionObject
+      await this.textExtractionRepository.save(textExtraction)
+      return textExtraction
     } catch(error) {
       this.handleDbExceptions(error)
     }
   }
 
-  async parseDocx(id: number) {
+  async parseDocx(id: number): Promise<TextExtraction> {
 
     const {path, file} = await this.getFileInfo(id, FileType.docx)
     
@@ -62,21 +63,21 @@ export class TextExtractionService {
 
     if (!text) throw new InternalServerErrorException(`Couldnt parse file with name: ${file.filename} and extension: ${file.type}. Check server logs`)
     
-      const textExtractionObject = this.textExtractionRepository.create({
+      const textExtraction = this.textExtractionRepository.create({
         raw_text: cleanText(text.value),
         file
       })
 
     try {
-      await this.textExtractionRepository.save(textExtractionObject)
-      return textExtractionObject
+      await this.textExtractionRepository.save(textExtraction)
+      return textExtraction
 
     } catch (error) {
       this.handleDbExceptions(error)
     }
   }
 
-  async parseCsv(id: number) {
+  async parseCsv(id: number): Promise<TextExtraction> {
 
     const {path, file } = await this.getFileInfo(id, FileType.csv)
 
@@ -84,21 +85,21 @@ export class TextExtractionService {
 
     if (!csvText) throw new BadRequestException(`Couldnt parse csv with id ${id}`)
 
-    const textExtracionObject = this.textExtractionRepository.create({
+    const textExtraction = this.textExtractionRepository.create({
       raw_text: csvText,
       file
     })
 
     try {
-      await this.textExtractionRepository.save(textExtracionObject)
-      return textExtracionObject
+      await this.textExtractionRepository.save(textExtraction)
+      return textExtraction
     } catch(error) {
       this.handleDbExceptions(error)
     }
 
   }
 
-  async parseExcel(id: number) {
+  async parseExcel(id: number): Promise<TextExtraction> {
 
     const {path, file} = await this.getFileInfo(id, FileType.xlsx)
 
@@ -116,20 +117,20 @@ export class TextExtractionService {
 
     });
 
-    const textExtracionObject = this.textExtractionRepository.create({
+    const textExtraction = this.textExtractionRepository.create({
       raw_text: data,
       file
     })
 
     try {
-      await this.textExtractionRepository.save(textExtracionObject)
-      return textExtracionObject
+      await this.textExtractionRepository.save(textExtraction)
+      return textExtraction
     } catch(error) {
       this.handleDbExceptions(error)
     }
   }
 
-  handleDbExceptions(error: any) {
+  handleDbExceptions(error: any): never {
     this.logger.error('DB Exception', error.stack);
     if (error.code === '23505') throw new BadRequestException(`Already parsed file with id: ${error.detail}. `)
     console.log(error)
@@ -137,7 +138,7 @@ export class TextExtractionService {
   }
 
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<TextExtraction> {
 
     const textExtraction = await this.textExtractionRepository.findOneBy({
       id

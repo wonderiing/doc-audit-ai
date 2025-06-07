@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { TextExtractionService } from 'src/text-extraction/text-extraction.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AiAnalysis } from './entities/ai-analysis.entity';
@@ -18,15 +18,16 @@ export class AiService {
 
   }
 
-  //TODO: Implements all methods find and findOne
 
-  async findExistingAnalysis(textExtractionId: number) {
-    return this.aiAnalysisRepository.findOne({
+  async findExistingAnalysis(textExtractionId: number): Promise<AiAnalysis | null> {
+    const aiAnalysis = await this.aiAnalysisRepository.findOne({
       where: {text_extraction: {id: textExtractionId}}
     })
+
+    return aiAnalysis
   }
 
-  async analyzeTextExtraction(id: number) {
+  async analyzeTextExtraction(id: number): Promise<AiAnalysisResponseDto> {
 
   const textExtraction = await this.textExtractionService.findOne(id)
   
@@ -50,9 +51,9 @@ export class AiService {
     }
   }
 
-  handleDbExceptions(error: any) {
+  handleDbExceptions(error: any): never {
       if (error.code === '23505') throw new BadRequestException(`Already analyzed file with id: ${error.detail}. `)
-      console.log(error)
+      console.error(error)
       throw new InternalServerErrorException(`Something went wrong check logs`)
     }
 }

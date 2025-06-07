@@ -9,6 +9,7 @@ import { User } from 'src/auth/entities/user.entity';
 import { getPlainAuditRecord } from './helpers/getPlainAuditRecord';
 import { PaginationDto } from 'src/common/dtos/paginatios.dto';
 import { of } from 'rxjs';
+import { ResponseAuditRecordDto } from './dto/response-audit-record.dto';
 
 @Injectable()
 export class AuditRecordService {
@@ -24,7 +25,7 @@ export class AuditRecordService {
   private readonly logger = new Logger(AuditRecordService.name)
   
 
-  async findAll(paginationDto: PaginationDto) {
+  async findAll(paginationDto: PaginationDto): Promise<ResponseAuditRecordDto[]> {
 
     const {limit = 5, offset = 0} = paginationDto
 
@@ -36,12 +37,10 @@ export class AuditRecordService {
 
     const auditRecordResponseDto = auditRecords.map((auditRecord) => getPlainAuditRecord(auditRecord))
 
-
     return auditRecordResponseDto
-
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<AuditRecord> {
 
     const auditRecord = await this.auditRecordRepository.findOne({
       where: {id},
@@ -54,7 +53,7 @@ export class AuditRecordService {
     return auditRecord
   }
 
-  async create(createAuditRecordDto: CreateAuditRecordDto, user: User) {
+  async create(createAuditRecordDto: CreateAuditRecordDto, user: User): Promise<ResponseAuditRecordDto> {
 
     const {notes, status, fileId} = createAuditRecordDto 
 
@@ -80,10 +79,9 @@ export class AuditRecordService {
     } catch (error ){
       this.handleDbExceptions(error)
     }
-    return createAuditRecordDto
   }
 
-  async update(id: number, updateAuditRecordDto: UpdateAuditRecordDto ) {
+  async update(id: number, updateAuditRecordDto: UpdateAuditRecordDto): Promise<AuditRecord> {
 
         const auditRecord = await this.auditRecordRepository.preload({
           id,
@@ -100,15 +98,14 @@ export class AuditRecordService {
       
   }
 
-  async delete(id: number) {
+  async delete(id: number): Promise<void> {
     const auditRecord = await this.findOne(id)
     await this.auditRecordRepository.remove(auditRecord)
   }
 
-  handleDbExceptions(error: any) {
+  handleDbExceptions(error: any): never {
     this.logger.error('DB Exception', error.stack);
     if (error.code === '23505') throw new BadRequestException(`Already audited file: ${error.detail}. `)
-    console.log(error)
     throw new InternalServerErrorException(`Something went wrong check logs`)
   }
 }

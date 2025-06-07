@@ -38,16 +38,15 @@ export class AuthService {
     }
   }
 
-  private getJwtToken(payload: any) {
+  private getJwtToken(payload: any): string {
 
     const token = this.jwtService.sign(payload)
     return token
   }
 
-  async register(registerUserDto: RegisterUserDto) {
+  async register(registerUserDto: RegisterUserDto): Promise<User> {
 
     const user = this.userRepository.create(registerUserDto)
-
 
     try {
       await this.userRepository.save(user)
@@ -57,11 +56,9 @@ export class AuthService {
 
       this.handleDbExceptions(error)
     }
-
-    return registerUserDto
   }
 
-  async findAll(paginationDto: PaginationDto) {
+  async findAll(paginationDto: PaginationDto): Promise<User[]> {
 
     const { limit = 5, offset = 0 } = paginationDto
 
@@ -73,7 +70,7 @@ export class AuthService {
     return users
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<User> {
 
     const user = await this.userRepository.findOneBy({id})
 
@@ -96,7 +93,7 @@ export class AuthService {
 
   }
 
-  private handleDbExceptions(error: any) {
+  private handleDbExceptions(error: any): never {
 
     if (error.code === '23505') throw new BadRequestException(`${error.detail}`)
     console.log(error)
