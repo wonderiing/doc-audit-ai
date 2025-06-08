@@ -23,7 +23,6 @@ export class ProcessingPipelineModuleService {
     
     const fileUploaded = await this.fileService.create(file, user)
 
-
     const { id, type  } = fileUploaded
     
     const textExtraction = await this.textExtractionService.parseFile(id, type as FileType)
