@@ -10,6 +10,7 @@ import * as mammoth from 'mammoth'
 import { cleanText } from './helper/cleanText.helper';
 import * as XLSX from 'xlsx'
 import { getStaticFileName } from 'src/files/helpers/getStaticFileName';
+import { extname } from 'path';
 
 
 @Injectable()
@@ -129,6 +130,24 @@ async getFileInfo(id: number, fileType: FileType) {
       this.handleDbExceptions(error)
     }
   }
+
+  
+  async parseFile(id: number, fileType: FileType): Promise<TextExtraction> {
+  switch (fileType) {
+    case FileType.pdf:
+      return this.parsePdf(id);
+    case FileType.docx:
+      return this.parseDocx(id);
+    case FileType.csv:
+      return this.parseCsv(id);
+    case FileType.xlsx:
+      return this.parseExcel(id);
+    default:
+      throw new BadRequestException(`Unsupported file type: ${fileType}`);
+  }
+}
+
+
 
   handleDbExceptions(error: any): never {
     this.logger.error('DB Exception', error.stack);

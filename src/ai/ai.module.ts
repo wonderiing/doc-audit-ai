@@ -19,7 +19,8 @@ import { PassportModule } from '@nestjs/passport';
     PassportModule.register({defaultStrategy: 'jwt'})  ,
   ],
   exports: [
-    TypeOrmModule
+    TypeOrmModule,
+    AiService
   ]
 })
 export class AiModule {}

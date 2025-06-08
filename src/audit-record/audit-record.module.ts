@@ -17,6 +17,9 @@ import { PassportModule } from '@nestjs/passport';
     ]),
     AiModule,
     PassportModule.register({defaultStrategy: 'jwt'})  ,
+  ],
+  exports: [
+    AuditRecordService
   ]
 })
 export class AuditRecordModule {}

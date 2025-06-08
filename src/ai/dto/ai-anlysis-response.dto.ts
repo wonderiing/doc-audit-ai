@@ -1,6 +1,6 @@
 export class AiAnalysisResponseDto {
   id: number;
-  ai_response: string;
+  aiResponse: string;
   analyzedAt: Date;
   fileId: number;
   rawText: string;

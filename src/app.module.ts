@@ -9,6 +9,7 @@ import { CommonModule } from './common/common.module';
 import { TextExtractionModule } from './text-extraction/text-extraction.module';
 import { AiModule } from './ai/ai.module';
 import { AuditRecordModule } from './audit-record/audit-record.module';
+import { ProcessingPipelineModuleModule } from './processing-pipeline-module/processing-pipeline-module.module';
 
 @Module({
 
@@ -38,6 +39,8 @@ import { AuditRecordModule } from './audit-record/audit-record.module';
     AiModule,
 
     AuditRecordModule,
+
+    ProcessingPipelineModuleModule,
 
   ],
   controllers: [AppController],

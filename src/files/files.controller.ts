@@ -15,6 +15,7 @@ import { User } from 'src/auth/entities/user.entity';
 import { PaginationDto } from 'src/common/dtos/paginatios.dto';
 import { UserRoles } from 'src/auth/interfaces/user-role.interface';
 import { getStaticFileName } from './helpers/getStaticFileName';
+import { AuthUploadFile } from 'src/common/decorators/auth-uploadfile.decorator';
 
 @Controller('files')
 export class FilesController {
@@ -34,15 +35,7 @@ export class FilesController {
   }
 
   @Post()
-  @UseInterceptors( FileInterceptor('file', {
-    fileFilter: fileFilter,
-    limits: {fileSize: 100000000},
-    storage: diskStorage({
-      destination: './static/files',
-      filename: fileNamer
-    })
-  }) )
-  @Auth()
+  @AuthUploadFile()
   uploadFile(
     @UploadedFile() file: Express.Multer.File,
     @GetUser() user: User

@@ -35,7 +35,7 @@ export class AuthController {
     return this.authService.findAll(paginationDto)
   }
 
-  @Get('deactivate/:id')
+  @Delete('deactivate/:id')
   @Auth(UserRoles.admin)
   deactivateUser(@Param('id', ParseIntPipe) id: number) {
     return this.authService.deactivateUser(id)
