@@ -18,6 +18,18 @@ export class AiService {
 
   }
 
+  async findOneByFileId(id: number) {
+    
+    const aiAnalysis = await this.aiAnalysisRepository.findOne({
+      where: {text_extraction: {file: {id}}},
+      loadRelationIds: true, 
+
+    })
+
+    if (!aiAnalysis) throw new NotFoundException(`Analyze with file id ${id} was not found, file may not be analyzed yet`)
+    
+    return aiAnalysis
+  }
 
   async findExistingAnalysis(textExtractionId: number): Promise<AiAnalysis | null> {
     const aiAnalysis = await this.aiAnalysisRepository.findOne({

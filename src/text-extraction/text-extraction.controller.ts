@@ -7,7 +7,7 @@ import { UserRoles } from 'src/auth/interfaces/user-role.interface';
 
 
 @Controller('text-extraction')
-@Auth(UserRoles.auditor)
+@Auth()
 export class TextExtractionController {
   constructor(private readonly textExtractionService: TextExtractionService) {}
   
@@ -38,5 +38,10 @@ export class TextExtractionController {
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.textExtractionService.findOne(id)
+  }
+
+  @Get('/file/:fileId')
+  findOneByFileId(@Param('fileId', ParseIntPipe) fileId: number) {
+    return this.textExtractionService.findTextExtractionByFileId(fileId)
   }
 }

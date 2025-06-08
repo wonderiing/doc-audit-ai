@@ -26,6 +26,18 @@ export class TextExtractionService {
   private readonly logger = new Logger(TextExtractionService.name)
 
 
+  async findTextExtractionByFileId(id: number): Promise<TextExtraction> {
+
+    const textExtraction = await this.textExtractionRepository.findOne({
+      where: {file: {id}},
+      loadRelationIds: true
+    })
+
+    if (!textExtraction) throw new NotFoundException(`File with id ${id} has no text-extraction`)
+
+    return textExtraction
+  }
+
 async getFileInfo(id: number, fileType: FileType) {
     const file = await this.fileService.findOne(id)
 

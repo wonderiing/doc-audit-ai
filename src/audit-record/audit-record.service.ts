@@ -53,6 +53,23 @@ export class AuditRecordService {
     return auditRecord
   }
 
+  async findByUser(user: User, paginationDto: PaginationDto): Promise<AuditRecord[]> {
+
+    const {id} = user
+    const {limit = 5 , offset = 0} = paginationDto
+
+
+    const userAuditRecord = await this.auditRecordRepository.find({
+      take: limit,
+      skip: offset,
+      relations: ['file'],
+      where: {user: {id}}
+    })
+
+    return userAuditRecord
+
+  }
+
   async create(createAuditRecordDto: CreateAuditRecordDto, user: User): Promise<ResponseAuditRecordDto> {
 
     const {notes, status, fileId} = createAuditRecordDto 
@@ -77,6 +94,7 @@ export class AuditRecordService {
       return plainAuditRecord
 
     } catch (error ){
+      console.error(error)
       this.handleDbExceptions(error)
     }
   }

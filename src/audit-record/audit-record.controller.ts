@@ -24,7 +24,7 @@ export class AuditRecordController {
     return this.auditRecordService.update(id, updateAuditRecordDto)
   }
 
-  @Get(':id')
+  @Get('id/:id')
   @Auth()
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.auditRecordService.findOne(id)
@@ -40,6 +40,12 @@ export class AuditRecordController {
   @Auth(UserRoles.admin, UserRoles.auditor) 
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.auditRecordService.delete(id)
+  }
+
+  @Get('/user') 
+  @Auth()
+  findByUserId(@GetUser() user: User, @Query() paginationDto: PaginationDto ) {
+    return this.auditRecordService.findByUser(user, paginationDto)
   }
 
 

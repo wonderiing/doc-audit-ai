@@ -1,4 +1,4 @@
-import { Controller,Post, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller,Post, Param, ParseIntPipe, Get } from '@nestjs/common';
 import { AiService } from './ai.service';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { UserRoles } from 'src/auth/interfaces/user-role.interface';
@@ -16,5 +16,11 @@ export class AiController {
   @Auth(UserRoles.auditor)
   aiAnalysis(@Param('id', ParseIntPipe) id: number) {
     return this.aiService.analyzeTextExtraction(id)
+  }
+
+  @Get(':fileId')
+  @Auth()
+  findOneByFileId(@Param('fileId', ParseIntPipe) id: number) {
+    return this.aiService.findOneByFileId(id)
   }
 }
