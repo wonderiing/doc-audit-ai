@@ -25,7 +25,7 @@ export class FilesService {
   private readonly logger = new Logger(FilesService.name)
   
 
-   async create( file: Express.Multer.File, user: User) {
+   async create( file: Express.Multer.File, user: User): Promise<FileDocument> {
 
     if (!file) throw new BadRequestException(`File was not found`)
     const {filename} = file

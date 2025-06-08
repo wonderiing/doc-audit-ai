@@ -159,16 +159,6 @@ async getFileInfo(id: number, fileType: FileType) {
   }
 }
 
-
-
-  handleDbExceptions(error: any): never {
-    this.logger.error('DB Exception', error.stack);
-    if (error.code === '23505') throw new BadRequestException(`Already parsed file with id: ${error.detail}. `)
-    console.log(error)
-    throw new InternalServerErrorException(`Something went wrong check logs`)
-  }
-
-
   async findOne(id: number): Promise<TextExtraction> {
 
     const textExtraction = await this.textExtractionRepository.findOneBy({
@@ -179,5 +169,13 @@ async getFileInfo(id: number, fileType: FileType) {
 
     return textExtraction
   }
+
+  handleDbExceptions(error: any): never {
+    this.logger.error('DB Exception', error.stack);
+    if (error.code === '23505') throw new BadRequestException(`Already parsed file with id: ${error.detail}. `)
+    console.log(error)
+    throw new InternalServerErrorException(`Something went wrong check logs`)
+  }
+
 
 }

@@ -18,20 +18,20 @@ export class AiService {
 
   }
 
-  async findOneByFileId(id: number) {
+  async findOneByFileId(fileId: number) {
     
     const aiAnalysis = await this.aiAnalysisRepository.findOne({
-      where: {text_extraction: {file: {id}}},
+      where: {text_extraction: {file: {id: fileId}}},
       loadRelationIds: true, 
 
     })
 
-    if (!aiAnalysis) throw new NotFoundException(`Analyze with file id ${id} was not found, file may not be analyzed yet`)
+    if (!aiAnalysis) throw new NotFoundException(`Analyze with file id ${fileId} was not found, file may not be analyzed yet`)
     
     return aiAnalysis
   }
 
-  async findExistingAnalysis(textExtractionId: number): Promise<AiAnalysis | null> {
+  async findAnalysisByTextExtractionId(textExtractionId: number): Promise<AiAnalysis | null> {
     const aiAnalysis = await this.aiAnalysisRepository.findOne({
       where: {text_extraction: {id: textExtractionId}}
     })
@@ -43,7 +43,7 @@ export class AiService {
 
   const textExtraction = await this.textExtractionService.findOne(id)
   
-  const existingAnalysis = await this.findExistingAnalysis(textExtraction.id) 
+  const existingAnalysis = await this.findAnalysisByTextExtractionId(textExtraction.id) 
   if (existingAnalysis) {
     throw new BadRequestException(`File with id ${id} has already been analyzed.`);
   }
