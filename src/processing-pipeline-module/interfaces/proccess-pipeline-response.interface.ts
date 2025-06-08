@@ -19,7 +19,7 @@ export interface File {
 }
 
 export interface User {
-    id:        number;
+    id:        number ;
     fullName:  string;
     email:     string;
     roles:     string[];

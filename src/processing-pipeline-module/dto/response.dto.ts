@@ -9,7 +9,7 @@ export class UserInfoDto {
   email: string;
 }
 
-export class FileInfoDto {
+export class FileInfoDto  {
   @IsNumber()
   id: number;
 

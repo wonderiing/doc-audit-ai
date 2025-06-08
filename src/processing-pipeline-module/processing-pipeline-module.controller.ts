@@ -17,7 +17,7 @@ export class ProcessingPipelineModuleController {
   @Post()
   @AuthUploadFile(UserRoles.auditor)
   uploadFile(
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file: Express.Multer.File ,
     @GetUser() user: User
   ) {
     return this.processingPipelineModuleService.create(file, user)

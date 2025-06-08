@@ -19,7 +19,7 @@ export function mapToProcessingPipelineResponseDto(response: PipelinePlainRespon
 
   dto.user = plainToInstance(UserInfoDto, {
     id: userData.id,
-    email: userData.email,
+    email: userData.email ,
   });
 
   dto.textExtractionId = textExtraction.id;

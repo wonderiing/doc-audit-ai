@@ -16,6 +16,6 @@ import { AuditRecordModule } from 'src/audit-record/audit-record.module';
     PassportModule.register({defaultStrategy: 'jwt'}),
     AiModule,
     AuditRecordModule
-  ]
+   ]
 })
 export class ProcessingPipelineModuleModule {}

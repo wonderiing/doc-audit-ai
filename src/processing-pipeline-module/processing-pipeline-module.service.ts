@@ -35,7 +35,7 @@ export class ProcessingPipelineModuleService {
 
     const aiAnalysis = await this.aiService.analyzeTextExtraction(textId)
 
-    const response: PipelinePlainResponse = {
+    const response: PipelinePlainResponse =  {
       fileUploaded,
       textExtraction,
       aiAnalysis  
