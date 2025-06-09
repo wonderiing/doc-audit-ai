@@ -29,6 +29,8 @@ export class AuthService {
 
     if (!user) throw new NotFoundException(`User with id email $${email} is not registered`)
 
+    if (!user.password) throw new BadRequestException(`User has no password, set you may login with Google?`)  
+
     if (!bcrypt.compareSync(password, user.password))
       throw new UnauthorizedException(`Invalid credentials`)
 
@@ -36,6 +38,22 @@ export class AuthService {
       ...user,
       token: this.getJwtToken({id: user.id})
     }
+  }
+
+  async loginGoogle(user: User) {
+
+    const {id} = user
+
+    const token = this.getJwtToken({id})
+
+    const response = {
+      ...user,
+      token,
+      message: 'login with google succesfull'
+    }
+
+    console.log(response)
+    return response
   }
 
   private getJwtToken(payload: any): string {

@@ -16,8 +16,11 @@ export class User {
     @Column('text', { unique: true})
     email: string
 
-    @Column('text', {select: false})
-    password: string
+    @Column('text', {select: false, nullable: true})
+    password: string | null
+
+    @Column('text', {unique: true, nullable: true})
+    googleId: string | null
 
     @Column({
         type: 'text',
@@ -48,7 +51,9 @@ export class User {
     
     @BeforeInsert()
     hashPassword() {
-        this.password = bcrypt.hashSync(this.password, 10)
+        if (this.password != null) {
+            this.password = bcrypt.hashSync(this.password, 10)
+        }
     }
 
 }

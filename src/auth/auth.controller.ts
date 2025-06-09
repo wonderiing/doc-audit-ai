@@ -8,6 +8,8 @@ import { RolesProtected } from './decorators/roles-protected.decorator';
 import { UserRoles } from './interfaces/user-role.interface';
 import { Auth } from './decorators/auth.decorator';
 import { PaginationDto } from 'src/common/dtos/paginatios.dto';
+import { GetUser } from './decorators/get-user.decorator';
+import { User } from './entities/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -40,5 +42,19 @@ export class AuthController {
   deactivateUser(@Param('id', ParseIntPipe) id: number) {
     return this.authService.deactivateUser(id)
   } 
+
+  @Get('google') 
+  @UseGuards(AuthGuard('google'))
+  async googleAuth() {
+
+  }
+
+  @Get('google/callback')
+  @UseGuards(AuthGuard('google'))
+  async googleAuthRedirect(
+    @GetUser() user: User
+  ) {
+    this.authService.loginGoogle(user)
+  }
 
 }
