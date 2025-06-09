@@ -54,7 +54,7 @@ export class AuthController {
   async googleAuthRedirect(
     @GetUser() user: User
   ) {
-    this.authService.loginGoogle(user)
+    return this.authService.loginGoogle(user)
   }
 
 }

@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt'
 import { JwtService } from '@nestjs/jwt';
 import { PaginationDto } from 'src/common/dtos/paginatios.dto';
+import { access } from 'fs';
 
 @Injectable()
 export class AuthService {
@@ -43,16 +44,16 @@ export class AuthService {
   async loginGoogle(user: User) {
 
     const {id} = user
-
     const token = this.getJwtToken({id})
+    const { password, ...sanitizedUser } = user;
+
 
     const response = {
-      ...user,
-      token,
-      message: 'login with google succesfull'
+      user: sanitizedUser,
+      access_token: token,
+      message: 'Login with google succesful',
+      authProvider: 'google'
     }
-
-    console.log(response)
     return response
   }
 

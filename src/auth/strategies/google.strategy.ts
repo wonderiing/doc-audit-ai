@@ -36,7 +36,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
 
             const {name, emails, photo} = profile
 
-            console.log(profile)
             const email = emails[0].value
 
             let user = await this.userRepository.findOne({
