@@ -104,6 +104,7 @@ export class AuthService {
     const user = await this.findOne(id)
 
     user.isActive = false
+    await this.userRepository.save(user)
 
     return {
       message: `user with id ${id} was deactivated`,
