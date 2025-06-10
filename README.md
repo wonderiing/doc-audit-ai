@@ -44,4 +44,8 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Frontend Preview
+
+![Dashboard](/images/landing.png)
+![Phones](/images/phones.png)
 
