@@ -19,7 +19,7 @@ export class ProcessingPipelineModuleService {
   ) {}
 
 
-  async create(file: Express.Multer.File, user: User): Promise<ProcessingPipelineResponseDto> {
+  async createContractAnalysis(file: Express.Multer.File, user: User): Promise<ProcessingPipelineResponseDto> {
     
     const fileUploaded = await this.fileService.create(file, user)
 
@@ -32,7 +32,7 @@ export class ProcessingPipelineModuleService {
     const {id: textId} = textExtraction
 
 
-    const aiAnalysis = await this.aiService.analyzeTextExtraction(textId)
+    const aiAnalysis = await this.aiService.analyzeContract(textId)
 
     const response: PipelinePlainResponse =  {
       fileUploaded,
@@ -45,5 +45,27 @@ export class ProcessingPipelineModuleService {
     return processPipelineReponseDto
 
   }
+
+
+  async createDataAnalysis(file: Express.Multer.File, user: User): Promise<ProcessingPipelineResponseDto> {
+    const fileUploaded = await this.fileService.create(file, user)
+
+    const {id, type } = fileUploaded
+
+    const textExtraction = await this.textExtractionService.parseFile(id, type as FileType)
+
+    const {id: textId} = textExtraction
+
+    const aiAnalysis = await this.aiService.analyzeData(textId)
+
+    const response: PipelinePlainResponse = {
+      fileUploaded,
+      textExtraction,
+      aiAnalysis
+    }
+
+    const processPipelineResponseDto: ProcessingPipelineResponseDto = mapToProcessingPipelineResponseDto(response)
+    return processPipelineResponseDto
+ }
 
 }

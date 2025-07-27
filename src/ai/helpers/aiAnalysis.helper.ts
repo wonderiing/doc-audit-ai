@@ -3,21 +3,19 @@ import { BadRequestException } from '@nestjs/common';
 import OpenAI from 'openai';
 
 
-export const analyzeFileText = async (rawText: string) => {
+export const analyzeLegalContract = async (contractText: string) => {
   const client = new OpenAI();
 
   const response = await client.responses.create({
       model: "gpt-3.5-turbo",
-      input: `Analiza el siguiente documento en profundidad. Quiero que actúes como un auditor experto y me entregues la siguiente información:
-              Resumen ejecutivo: Un resumen claro y conciso del contenido del documento.
-              Tendencias (Si detectas que el archivo es un csv o excel): Identifica valores atipicos, muestre tendencias, Si contiene métricas financieras, de ventas o desempeño, identifica KPIs o posibles alertas.
-              Riesgos o alertas: Señala cualquier inconsistencia, ambigüedad, error, falta de evidencia o riesgo potencial.
-              Puntos fuertes y débiles: Resume los elementos mejor desarrollados y los que requieren mejora.
-              Aspectos legales, éticos o de cumplimiento (si aplica): Observaciones relacionadas con normativas o buenas prácticas.
-              Recomendaciones: Sugerencias para mejorar el contenido o la estructura del documento.
-              Si detectas algo adicional que sea relevante para una auditoría documental (como tono, sesgos, formato, falta de fuentes, etc.), inclúyelo también.
-              Aquí está el documento para analizar:
-              ${rawText}`,
+      input: `Actúa como un analista legal experto en revisión de contratos No des introducción. Comienza directamente con el análisis y un pequeño.
+              Analiza el siguiente contrato legal. Tu objetivo es:
+              1. Identificar cláusulas ambiguas, abusivas o de alto riesgo.
+              2. Detectar posibles omisiones importantes (garantías, fechas clave, penalizaciones, derechos y obligaciones de las partes).
+              3. Resumir los puntos más importantes del contrato en lenguaje claro.
+              4. Sugerir mejoras o cambios antes de firmar el contrato.
+              Texto del contrato:
+              ${contractText}`,
             })
 
     if (!response) throw new BadRequestException(`Something went wrong with IA`)

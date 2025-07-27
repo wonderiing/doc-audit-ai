@@ -14,12 +14,26 @@ import { UserRoles } from 'src/auth/interfaces/user-role.interface';
 export class ProcessingPipelineModuleController {
   constructor(private readonly processingPipelineModuleService: ProcessingPipelineModuleService) {}
 
-  @Post()
-  @AuthUploadFile(UserRoles.auditor)
-  uploadFile(
+
+
+  @Post('/contract')
+  @AuthUploadFile()
+  uploadContractFile(
     @UploadedFile() file: Express.Multer.File ,
     @GetUser() user: User
   ) {
-    return this.processingPipelineModuleService.create(file, user)
+    return this.processingPipelineModuleService.createContractAnalysis(file, user)
   }
+
+
+  @Post('/data')
+  @AuthUploadFile()
+  uploadDataFile(
+    @UploadedFile() file: Express.Multer.File,
+    @GetUser() user: User
+  ) {
+    return this.processingPipelineModuleService.createDataAnalysis(file, user)
+  }
+  
+
 }
