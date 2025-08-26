@@ -8,7 +8,7 @@ export const fileNamer = (req: Express.Request, file: Express.Multer.File, callb
     
     const fileExtension = extname(file.originalname).toLowerCase()
 
-    const fileName = `${uuid()}${fileExtension}`
+    const fileName = `${file.originalname}${fileExtension}`
 
     callback(null, fileName)
 

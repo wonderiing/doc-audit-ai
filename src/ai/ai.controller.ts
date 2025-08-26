@@ -12,11 +12,18 @@ export class AiController {
   /* 
   Receives a TextExtractionEntity id
   */
-  // @Post(':id')
-  // @Auth(UserRoles.auditor)
-  // aiAnalysis(@Param('id', ParseIntPipe) id: number) {
-  //   return this.aiService.analyzeTextExtraction(id)
-  // }
+   @Post('data/:id')
+   @Auth(UserRoles.auditor)
+  aiAnalysisData(@Param('id', ParseIntPipe) id: number) {
+    return this.aiService.analyzeData(id)
+  }
+
+  @Post('contract/:id')
+  @Auth(UserRoles.auditor)
+  aiAnalysisContract(@Param('id', ParseIntPipe) id: number) {
+    return this.aiService.analyzeContract(id)
+  }
+
 
   @Get(':fileId')
   @Auth()
