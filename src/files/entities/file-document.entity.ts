@@ -18,6 +18,9 @@ export class FileDocument {
     @Column('text', {unique: true})
     url: string
 
+    @Column('text')
+    path: string
+
     @Column({
         type: 'enum',
         enum: FileType,

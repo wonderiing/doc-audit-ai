@@ -8,6 +8,7 @@ import { plainToInstance } from 'class-transformer';
 import { AiAnalysisResponseDto } from './dto/ai-anlysis-response.dto';
 import { getPlainObject } from './helpers/getPlainObject.helper';
 import { analazyData } from './helpers/aiDataAnalysis.helper';
+import { anonymizeContract } from './helpers/anonymizeContracts.helper';
 
 @Injectable()
 export class AiService {
@@ -41,28 +42,31 @@ export class AiService {
   }
 
   async analyzeContract(id: number): Promise<AiAnalysisResponseDto> {
+      const textExtraction = await this.textExtractionService.findOne(id);
 
-          const textExtraction = await this.textExtractionService.findOne(id)
-          
-          const existingAnalysis = await this.findAnalysisByTextExtractionId(textExtraction.id) 
-          if (existingAnalysis) {
-            throw new BadRequestException(`File with id ${id} has already been analyzed.`);
-          }
+      const existingAnalysis = await this.findAnalysisByTextExtractionId(textExtraction.id);
+      if (existingAnalysis) {
+        throw new BadRequestException(`File with id ${id} has already been analyzed.`);
+      }
 
-          const aiResponse = await analyzeLegalContract(textExtraction.raw_text)
+      const anonymizedText = anonymizeContract(textExtraction.raw_text);
 
-            const aiAnalysis = this.aiAnalysisRepository.create({
-              ai_response: aiResponse,
-              text_extraction: textExtraction
-            })
-            try {
-              await this.aiAnalysisRepository.save(aiAnalysis)
-              const response = getPlainObject(aiAnalysis)
-              return response
-            } catch(error) {
-              this.handleDbExceptions(error)
-            }
+      const aiResponse = await analyzeLegalContract(anonymizedText);
+
+      const aiAnalysis = this.aiAnalysisRepository.create({
+        ai_response: aiResponse,
+        text_extraction: textExtraction
+      });
+
+      try {
+        await this.aiAnalysisRepository.save(aiAnalysis);
+        const response = getPlainObject(aiAnalysis);
+        return response;
+      } catch (error) {
+        this.handleDbExceptions(error);
+      }
   }
+
 
 
     async analyzeData(id: number): Promise<AiAnalysisResponseDto> {

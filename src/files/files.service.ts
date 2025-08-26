@@ -8,8 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { User } from 'src/auth/entities/user.entity';
 import { PaginationDto } from 'src/common/dtos/paginatios.dto';
 import {extname} from 'path'
-import { TextExtractionService } from 'src/text-extraction/text-extraction.service';
-
+import { promises as fs } from 'fs';
 
 //TODO: Patch method for audited docx and exceptions for findOne
 @Injectable()
@@ -25,33 +24,33 @@ export class FilesService {
   private readonly logger = new Logger(FilesService.name)
   
 
-   async create( file: Express.Multer.File, user: User): Promise<FileDocument> {
+  async create(file: Express.Multer.File, user: User): Promise<FileDocument> {
+      if (!file) throw new BadRequestException(`File was not found`);
 
-    if (!file) throw new BadRequestException(`File was not found`)
-    const {filename} = file
+      const { filename, path: filePath } = file; 
+      const type = extname(file.originalname).toLowerCase() as FileType;
+      const secureUrl = `${this.configService.get('HOST_API')}/files/see-file/${filename}`;
 
-    const secureUrl = `${ this.configService.get('HOST_API')}/files/see-file/${filename}`
-    const type = extname(file.originalname).toLowerCase() as FileType
+      const createFileDocumentDto: CreateFileDocumentDto = {
+        filename,
+        url: secureUrl,
+        type,
+        path: filePath, 
+      };
 
-    const createFileDocumentDto: CreateFileDocumentDto = {
-      filename,
-      url: secureUrl,
-      type
-    }
-    try {
+      try {
+        const fileDocument = this.fileDocumentRepository.create({
+          user,
+          ...createFileDocumentDto,
+        });
+        await this.fileDocumentRepository.save(fileDocument);
+        return fileDocument;
+      } catch (error) {
+        console.log(error);
+        throw new InternalServerErrorException(`Something went wrong, check server logs`);
+      }
+}
 
-      const fileDocument = this.fileDocumentRepository.create({
-        user,
-        ...createFileDocumentDto
-      })
-      await this.fileDocumentRepository.save(fileDocument)
-      return fileDocument
-    } catch(error) {
-      console.log(error)
-      throw new InternalServerErrorException(`Something went wrong check server logs`)
-    }
-  
-  }
 
   async findAll(paginationDto: PaginationDto): Promise<FileDocument[]> {
 
@@ -80,14 +79,21 @@ export class FilesService {
 
   }
 
-  async delete(id: number): Promise<void> {
+async delete(id: number): Promise<void> {
+  const file = await this.findOne(id);
+  if (!file) throw new NotFoundException(`File with id ${id} not found`);
 
-    const file = await this.findOne(id)
+  file.is_active = false;
+  await this.fileDocumentRepository.save(file);
 
-    file.is_active = false
-
-    await this.fileDocumentRepository.save(file)
+  try {
+    await fs.unlink(file.path); 
+  } catch (err) {
+    console.error(`No se pudo borrar el archivo físico: ${err.message}`);
+  
   }
+}
+  
 
     handleDbExceptions(error: any) {
     this.logger.error('DB Exception', error.stack);

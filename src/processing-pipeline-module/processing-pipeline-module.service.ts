@@ -27,7 +27,6 @@ export class ProcessingPipelineModuleService {
     
     const textExtraction = await this.textExtractionService.parseFile(id, type as FileType)
 
-    console.log(textExtraction.id)
 
     const {id: textId} = textExtraction
 

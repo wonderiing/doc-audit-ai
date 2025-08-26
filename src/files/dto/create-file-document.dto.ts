@@ -16,6 +16,9 @@ export class CreateFileDocumentDto {
     @IsEnum(FileType)
     type: FileType
 
+    @IsString()
+    path: string
+
     @IsOptional()
     uploaded_at?: Date
 
