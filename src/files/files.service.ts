@@ -67,6 +67,24 @@ export class FilesService {
 
   }
 
+  async findAllByUser(paginationDto: PaginationDto, user: User): Promise<FileDocument[]> {
+
+    const {limit = 5, offset = 0} = paginationDto
+
+    const {id} = user
+
+    const files = await this.fileDocumentRepository.find({
+      take: limit,
+      skip: offset,
+      where: { user: { id: user.id } },
+      select: {user: {createdAt: false}}
+    })
+
+    return files
+
+  }
+
+
   async findOne(id: number): Promise<FileDocument> {
 
     const file = await this.fileDocumentRepository.findOne({

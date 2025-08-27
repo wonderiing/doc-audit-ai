@@ -1,0 +1,101 @@
+ID,Fecha,Cliente,Producto,Cantidad,PrecioUnitario,Total
+1,2025-03-18,Laura Sánchez,"Tablet 10""",1,22403,22403
+2,2025-08-05,María Gómez,Mouse Inalámbrico,2,21820,43640
+3,2025-06-30,Miguel Ángel,Laptop Gamer,5,14136,70680
+4,2025-02-23,Pedro Martínez,Teclado Mecánico,5,18477,92385
+5,2025-04-18,Carlos Pérez,Router WiFi,1,21573,21573
+6,2025-06-12,María Gómez,Router WiFi,2,17978,35956
+7,2025-04-29,Elena Díaz,Teclado Mecánico,5,9054,45270
+8,2025-04-15,Carlos Pérez,Smartwatch,3,15862,47586
+9,2025-07-13,Pedro Martínez,Smartwatch,5,12412,62060
+10,2025-03-31,Luis Hernández,"Televisor 50""",2,3406,6812
+11,2025-08-06,Laura Sánchez,"Televisor 50""",4,4395,17580
+12,2025-05-25,Juan Torres,"Monitor 27""",2,2908,5816
+13,2025-04-24,Elena Díaz,Smartwatch,2,14739,29478
+14,2025-08-26,Juan Torres,Smartphone X,1,4536,4536
+15,2025-07-05,Ana López,Router WiFi,2,23816,47632
+16,2025-07-11,Laura Sánchez,Audífonos,5,11138,55690
+17,2025-04-25,Miguel Ángel,Mouse Inalámbrico,5,7236,36180
+18,2025-04-12,Ana López,Smartwatch,4,5574,22296
+19,2025-07-22,Luis Hernández,Router WiFi,3,14685,44055
+20,2025-01-20,Juan Torres,Laptop Gamer,5,14337,71685
+21,2025-03-30,María Gómez,Smartphone X,2,5446,10892
+22,2025-05-05,Ana López,"Tablet 10""",4,15114,60456
+23,2025-02-20,Laura Sánchez,Smartphone X,2,11399,22798
+24,2025-08-17,María Gómez,Laptop Gamer,4,14091,56364
+25,2025-07-08,Ana López,Smartwatch,4,3193,12772
+26,2025-01-27,Laura Sánchez,Audífonos,5,8222,41110
+27,2025-03-22,Miguel Ángel,"Televisor 50""",4,23640,94560
+28,2025-05-17,Pedro Martínez,Teclado Mecánico,4,19892,79568
+29,2025-08-28,Elena Díaz,"Televisor 50""",2,19785,39570
+30,2025-06-16,Carlos Pérez,Router WiFi,1,5512,5512
+31,2025-06-07,Pedro Martínez,Smartphone X,2,18568,37136
+32,2025-03-18,Juan Torres,Smartphone X,5,3268,16340
+33,2025-04-05,Miguel Ángel,Smartwatch,2,16128,32256
+34,2025-04-28,Carlos Pérez,Smartwatch,2,12568,25136
+35,2025-08-28,Juan Torres,Smartphone X,5,1802,9010
+36,2025-04-23,Pedro Martínez,Teclado Mecánico,2,5848,11696
+37,2025-01-22,Sofía Ramírez,Smartphone X,1,11861,11861
+38,2025-04-10,Carlos Pérez,"Monitor 27""",3,20402,61206
+39,2025-06-08,Elena Díaz,Teclado Mecánico,4,18153,72612
+40,2025-01-01,Luis Hernández,Smartwatch,3,9010,27030
+41,2025-02-23,Luis Hernández,Audífonos,1,8203,8203
+42,2025-08-26,Sofía Ramírez,"Monitor 27""",4,20137,80548
+43,2025-01-25,María Gómez,Teclado Mecánico,1,5413,5413
+44,2025-05-16,Carlos Pérez,"Tablet 10""",1,6102,6102
+45,2025-06-25,Sofía Ramírez,Smartwatch,4,18056,72224
+46,2025-03-13,Pedro Martínez,Teclado Mecánico,2,1816,3632
+47,2025-02-12,Sofía Ramírez,Smartwatch,1,5790,5790
+48,2025-06-10,Elena Díaz,Router WiFi,4,5161,20644
+49,2025-07-04,Elena Díaz,"Televisor 50""",1,8766,8766
+50,2025-01-09,Sofía Ramírez,"Televisor 50""",1,23428,23428
+51,2025-08-26,Laura Sánchez,Mouse Inalámbrico,5,7192,35960
+52,2025-07-14,Ana López,"Monitor 27""",2,15911,31822
+53,2025-03-04,Juan Torres,"Tablet 10""",1,9690,9690
+54,2025-05-24,Pedro Martínez,Teclado Mecánico,5,3123,15615
+55,2025-06-14,Sofía Ramírez,Teclado Mecánico,1,9386,9386
+56,2025-03-08,Carlos Pérez,Mouse Inalámbrico,4,17577,70308
+57,2025-03-14,Miguel Ángel,"Tablet 10""",4,22200,88800
+58,2025-03-02,Miguel Ángel,Laptop Gamer,2,7457,14914
+59,2025-07-08,Pedro Martínez,"Televisor 50""",1,6010,6010
+60,2025-02-25,Sofía Ramírez,Laptop Gamer,5,20906,104530
+61,2025-08-17,Miguel Ángel,Router WiFi,3,8586,25758
+62,2025-02-01,Laura Sánchez,Audífonos,1,22118,22118
+63,2025-06-20,María Gómez,Smartphone X,2,24042,48084
+64,2025-01-15,Carlos Pérez,Mouse Inalámbrico,5,16235,81175
+65,2025-04-07,Luis Hernández,"Tablet 10""",2,18883,37766
+66,2025-07-28,Sofía Ramírez,Mouse Inalámbrico,2,8318,16636
+67,2025-03-29,Sofía Ramírez,Smartwatch,1,5046,5046
+68,2025-03-16,Luis Hernández,Laptop Gamer,3,2433,7299
+69,2025-02-14,Miguel Ángel,"Tablet 10""",3,6168,18504
+70,2025-07-07,Luis Hernández,Laptop Gamer,3,22837,68511
+71,2025-07-16,Laura Sánchez,Audífonos,3,2669,8007
+72,2025-07-30,Laura Sánchez,"Televisor 50""",1,24424,24424
+73,2025-07-24,María Gómez,"Monitor 27""",5,14337,71685
+74,2025-07-23,Elena Díaz,Smartwatch,5,15425,77125
+75,2025-02-20,Ana López,Smartphone X,2,11441,22882
+76,2025-06-08,María Gómez,Smartwatch,2,12704,25408
+77,2025-08-12,Juan Torres,Teclado Mecánico,5,18230,91150
+78,2025-07-21,Carlos Pérez,Mouse Inalámbrico,5,12404,62020
+79,2025-08-29,Ana López,Laptop Gamer,4,11865,47460
+80,2025-02-15,María Gómez,Smartwatch,1,9008,9008
+81,2025-05-08,Miguel Ángel,Smartphone X,1,15437,15437
+82,2025-04-30,María Gómez,"Monitor 27""",4,3827,15308
+83,2025-05-15,Sofía Ramírez,Audífonos,3,3415,10245
+84,2025-06-16,Juan Torres,"Televisor 50""",2,3774,7548
+85,2025-03-29,María Gómez,Mouse Inalámbrico,5,18496,92480
+86,2025-03-02,Luis Hernández,"Monitor 27""",2,21659,43318
+87,2025-05-03,Sofía Ramírez,Audífonos,3,12774,38322
+88,2025-02-04,María Gómez,Router WiFi,5,15356,76780
+89,2025-01-11,Sofía Ramírez,"Monitor 27""",3,8466,25398
+90,2025-06-26,Elena Díaz,Laptop Gamer,3,3699,11097
+91,2025-06-06,Sofía Ramírez,Teclado Mecánico,2,20082,40164
+92,2025-04-15,Laura Sánchez,Laptop Gamer,4,13781,55124
+93,2025-05-08,Sofía Ramírez,Mouse Inalámbrico,3,22699,68097
+94,2025-06-27,Elena Díaz,Router WiFi,3,5560,16680
+95,2025-04-05,Carlos Pérez,Smartphone X,2,13433,26866
+96,2025-07-10,Laura Sánchez,Teclado Mecánico,3,10520,31560
+97,2025-01-05,Miguel Ángel,Mouse Inalámbrico,3,2255,6765
+98,2025-06-20,Carlos Pérez,Laptop Gamer,4,2264,9056
+99,2025-08-02,Ana López,Smartwatch,3,16273,48819
+100,2025-04-05,Luis Hernández,Audífonos,5,9326,46630

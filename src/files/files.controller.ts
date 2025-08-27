@@ -49,6 +49,12 @@ export class FilesController {
     return this.fileService.findAll(pagintaionDto)
   }
 
+  @Get('/user')
+  @Auth()
+  findAllByUser(@Query() paginationDto: PaginationDto, @GetUser() user: User) {
+    return this.fileService.findAllByUser(paginationDto, user)
+  }
+
   @Get(':id')
   @Auth()
   findOne(@Param('id', ParseIntPipe) id: number) {
