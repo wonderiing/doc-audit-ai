@@ -1,15 +1,21 @@
-import { BadRequestException } from '@nestjs/common'
-import {v4 as uuid} from 'uuid'
-import {extname} from 'path'
- 
-export const fileNamer = (req: Express.Request, file: Express.Multer.File, callback: Function) => {
+import { extname, basename } from 'path'
 
-    if (!file) return callback( new Error('File is empty'), false )
-    
-    const fileExtension = extname(file.originalname).toLowerCase()
+export const fileNamer = (
+  req: Express.Request,
+  file: Express.Multer.File,
+  callback: Function,
+) => {
+  if (!file) return callback(new Error('File is empty'), false)
 
-    const fileName = `${file.originalname}${fileExtension}`
+  const fileExtension = extname(file.originalname).toLowerCase()
+  const nameWithoutExt = basename(file.originalname, fileExtension)
 
-    callback(null, fileName)
+  // Evitar duplicados agregando un sufijo corto (timestamp + random)
+  const uniqueSuffix = `${Date.now()}-${Math.random()
+    .toString(36)
+    .slice(2, 6)}`
 
+  const fileName = `${nameWithoutExt}-${uniqueSuffix}${fileExtension}`
+
+  callback(null, fileName)
 }
