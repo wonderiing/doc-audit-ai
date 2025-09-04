@@ -19,7 +19,8 @@ import { TextExtractionModule } from 'src/text-extraction/text-extraction.module
     
   ],
   exports: [
-    FilesService
+    FilesService,
+    TypeOrmModule
   ]
 })
 export class FilesModule {}

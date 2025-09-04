@@ -9,13 +9,22 @@ import { AiAnalysisResponseDto } from './dto/ai-anlysis-response.dto';
 import { getPlainObject } from './helpers/getPlainObject.helper';
 import { analazyData } from './helpers/aiDataAnalysis.helper';
 import { anonymizeContract } from './helpers/anonymizeContracts.helper';
+import { FileDocument } from 'src/files/entities/file-document.entity';
+import * as fs from 'fs';
+import { FormData, File } from 'formdata-node';
+import { AiForecastRequestDto } from './dto/forecast-sales.request.dto';
+
+
+
 
 @Injectable()
 export class AiService {
   constructor(
     private readonly textExtractionService: TextExtractionService,
     @InjectRepository(AiAnalysis)
-    private readonly aiAnalysisRepository: Repository<AiAnalysis>
+    private readonly aiAnalysisRepository: Repository<AiAnalysis>,
+    @InjectRepository(FileDocument)
+    private readonly fileDocumentRepository: Repository<FileDocument>
   ){
 
   }
@@ -40,6 +49,51 @@ export class AiService {
 
         return aiAnalysis
   }
+
+
+      async forecastSales(aiForecastRequestDto: AiForecastRequestDto) {
+
+        const {fileId, level, n_days} = aiForecastRequestDto
+
+        const file = await this.fileDocumentRepository.findOne({
+          where: { id: fileId, is_active: true }
+        });
+
+        if (!file) {
+          throw new NotFoundException(`Archivo con id ${fileId} no encontrado`);
+        }
+
+        if (!['.csv', '.xlsx'].some(ext => file.filename.toLowerCase().endsWith(ext))) {
+          throw new BadRequestException('Solo se permiten archivos CSV o XLSX para forecast');
+        }
+
+        // Leer archivo completo en buffer
+        const buffer = fs.readFileSync(file.path);
+
+        const formData = new FormData();
+        formData.append(
+          'file',
+          new File([buffer], file.filename, {
+            type: file.filename.endsWith('.csv') ? 'text/csv' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          })
+        );
+        formData.append('level', level);
+        formData.append('n_days', n_days);
+
+        const response = await fetch('http://localhost:8000/predict-sales/', {
+          method: 'POST',
+          body: formData as any, // fetch genera headers correctos automáticamente
+        });
+
+        if (!response.ok) {
+          const error = await response.text();
+          throw new BadRequestException(`Error en forecast service: ${error}`);
+        }
+
+        return await response.json();
+      }
+
+
 
   async analyzeContract(id: number): Promise<AiAnalysisResponseDto> {
       const textExtraction = await this.textExtractionService.findOne(id);

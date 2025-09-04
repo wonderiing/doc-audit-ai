@@ -1,7 +1,8 @@
-import { Controller,Post, Param, ParseIntPipe, Get } from '@nestjs/common';
+import { Controller,Post, Param, ParseIntPipe, Get, Body } from '@nestjs/common';
 import { AiService } from './ai.service';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { UserRoles } from 'src/auth/interfaces/user-role.interface';
+import { AiForecastRequestDto } from './dto/forecast-sales.request.dto';
 
 @Controller('ai')
 export class AiController {
@@ -29,5 +30,11 @@ export class AiController {
   @Auth()
   findOneByFileId(@Param('fileId', ParseIntPipe) id: number) {
     return this.aiService.findOneByFileId(id)
+  }
+
+  @Post('/forecast/')
+  @Auth()
+  forecastSales(@Body() aiForecastRequestDto: AiForecastRequestDto) {
+   return this.aiService.forecastSales(aiForecastRequestDto)
   }
 }

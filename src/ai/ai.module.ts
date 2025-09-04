@@ -6,6 +6,7 @@ import { AiAnalysis } from './entities/ai-analysis.entity';
 import { ConfigModule } from '@nestjs/config';
 import { TextExtractionModule } from 'src/text-extraction/text-extraction.module';
 import { PassportModule } from '@nestjs/passport';
+import { FilesModule } from 'src/files/files.module';
 
 @Module({
   controllers: [AiController],
@@ -17,6 +18,7 @@ import { PassportModule } from '@nestjs/passport';
       AiAnalysis
     ]),
     PassportModule.register({defaultStrategy: 'jwt'})  ,
+    FilesModule
   ],
   exports: [
     TypeOrmModule,
