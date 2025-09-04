@@ -57,4 +57,12 @@ export class AuthController {
     return this.authService.loginGoogle(user)
   }
 
+  @Post('google/mobile')
+async googleMobile(@Body('idToken') idToken: string) {
+  const payload = await this.authService.verifyGoogleToken(idToken);
+  const user = await this.authService.validateOrCreateUser(payload);
+  return this.authService.loginGoogle(user);
+}
+
+
 }

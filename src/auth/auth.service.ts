@@ -8,6 +8,8 @@ import * as bcrypt from 'bcrypt'
 import { JwtService } from '@nestjs/jwt';
 import { PaginationDto } from 'src/common/dtos/paginatios.dto';
 import { access } from 'fs';
+  import { OAuth2Client } from 'google-auth-library';
+
 
 @Injectable()
 export class AuthService {
@@ -15,6 +17,7 @@ export class AuthService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly jwtService: JwtService
+
   ) {}
 
   async login(loginUserDto: LoginUserDto) {
@@ -40,6 +43,35 @@ export class AuthService {
       token: this.getJwtToken({id: user.id})
     }
   }
+
+
+private googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+
+  async verifyGoogleToken(idToken: string) {
+    const ticket = await this.googleClient.verifyIdToken({
+      idToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    return ticket.getPayload();
+  }
+
+  async validateOrCreateUser(payload: any) {
+    const email = payload.email;
+    let user = await this.userRepository.findOne({ where: { email } });
+
+    if (!user) {
+      user = this.userRepository.create({
+        email,
+        googleId: payload.sub,
+        fullName: payload.name,
+        password: null,
+      });
+      await this.userRepository.save(user);
+    }
+    return user;
+  }
+
 
   async loginGoogle(user: User) {
 
