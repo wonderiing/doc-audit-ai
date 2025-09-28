@@ -7,45 +7,111 @@
 
 
 
-# 📄Document Audit Workflow System
+# 🚀 Sistema de Análisis de Documentos Empresariales con IA
 
-A modular NestJS-based backend application designed to automate and streamline the processing, analysis, and auditing of various document types. This project demonstrates clean architecture, microservice-friendly modular design
+Una plataforma web desarrollada en NestJS enfocada en emprendedores y el ODS de crecimiento económico, que automatiza el análisis de documentos comerciales y legales mediante inteligencia artificial y machine learning.
 
-## 🔧 Key Features
-Authentication Module: Secure access control with role-based permissions.
+## 🎯 Propósito
+Esta aplicación está diseñada para ayudar a emprendedores pequeños a:
+- Analizar sus documentos de ventas y generar predicciones futuras
+- Revisar contratos legales detectando cláusulas riesgosas
+- Obtener insights accionables de sus datos empresariales
+- Automatizar procesos de auditoría y análisis documental
 
-File Upload & Validation Module: Efficient document upload with format validation and error checking.
+## 🔧 Características Principales
 
-Text Extraction Module: Parses text from PDFs, DOCX, CSV, Excel, and more.
+**Módulo de Autenticación:** Sistema seguro con JWT y OAuth2 (Google), control de acceso basado en roles.
 
-AI Analysis Module: Leverages the OpenAI API to perform advanced natural language processing on parsed content.
+**Módulo de Carga de Archivos:** Subida eficiente de documentos con validación de formatos (PDF, DOCX, CSV, XLSX, TXT, JPG, PNG).
 
-Auditing Module: Allows auditors to review, annotate, and approve/reject documents.
+**Módulo de Extracción de Texto:** Procesamiento automático de contenido desde múltiples formatos de archivo.
 
-Workflow Module: Orchestrates the end-to-end processing pipeline for a seamless document audit experience.
+**Módulo de Análisis con IA:** Integración con OpenAI GPT-3.5-turbo para análisis de contratos legales y datos de ventas.
 
-## Project setup
-1. Install ```npm install```
+**Módulo de Predicciones ML:** Integración con API externa en Python usando modelos XGBoost y Random Forest para predicciones de ventas.
 
+**Módulo de Auditoría:** Sistema de revisión, anotación y aprobación/rechazo de documentos por auditores.
 
-2. Copy ```env.example``` and set the variables
+**Módulo de Pipeline de Procesamiento:** Orquesta el flujo completo de procesamiento de documentos para una experiencia fluida.
 
+## 🛠️ Stack Tecnológico
 
-## Compile and run the project
+**Backend:** NestJS, TypeScript, TypeORM, PostgreSQL
+**Autenticación:** JWT, OAuth2 (Google), Passport
+**IA/ML:** OpenAI GPT-3.5-turbo, API Python con XGBoost y Random Forest
+**Procesamiento de Archivos:** Multer, PDF-parse, Mammoth, XLSX, PapaParse
+**Base de Datos:** PostgreSQL con Docker
+**Validación:** Class-validator, Class-transformer
+**Seguridad:** Bcrypt, Guards personalizados, Decoradores de autorización
 
+## 🚀 Instalación y Configuración
+
+1. Instalar dependencias:
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Frontend Preview
+2. Configurar variables de entorno:
+```bash
+# Copiar el archivo de ejemplo
+cp .env.example .env
 
-![Dashboard](/images/landing.png)
-![Phones](/images/phones.png)
+# Configurar las variables necesarias:
+# - DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME
+# - JWT_SECRET
+# - GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
+# - HOST_API
+# - OPENAI_API_KEY
+```
+
+3. Ejecutar con Docker Compose:
+```bash
+docker-compose up -d
+```
+
+## 🏃‍♂️ Comandos de Desarrollo
+
+```bash
+# Desarrollo
+npm run start:dev
+
+# Producción
+npm run start:prod
+
+# Linting
+npm run lint
+
+# Tests
+npm run test
+```
+
+## 📱 Capturas de Pantalla
+
+![iOS App](/images/swift-version.jpeg)
+![IOS App](/images/swift-version-2.jpeg)
+*Aplicación móvil nativa para iOS*
+
+## 🏗️ Arquitectura
+
+La aplicación sigue una arquitectura modular de NestJS con los siguientes módulos principales:
+
+- **AuthModule:** Gestión de usuarios y autenticación
+- **FilesModule:** Manejo de archivos y validación
+- **TextExtractionModule:** Extracción de texto de documentos
+- **AiModule:** Análisis con IA y predicciones ML
+- **AuditRecordModule:** Sistema de auditoría
+- **ProcessingPipelineModule:** Orquestación del flujo completo
+
+## 🎯 Impacto
+
+Esta plataforma contribuye al **Objetivo de Desarrollo Sostenible 8: Trabajo decente y crecimiento económico** al:
+
+- Democratizar el acceso a herramientas de análisis empresarial para emprendedores
+- Automatizar procesos que tradicionalmente requieren consultores costosos
+- Proporcionar insights accionables basados en datos reales
+- Facilitar la toma de decisiones informadas para el crecimiento empresarial
+
+## 📄 Licencia
+
+Este proyecto es privado y está desarrollado con fines educativos y de demostración.
 
