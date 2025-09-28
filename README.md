@@ -87,8 +87,9 @@ npm run test
 
 ## 📱 Capturas de Pantalla
 
-![iOS App](/images/swift-version.jpeg)
-![IOS App](/images/swift-version-2.jpeg)
+![Ios APP](/images/swift-version.jpeg)
+![IOS APP](/images/swift-version-2.jpeg)
+
 *Aplicación móvil nativa para iOS*
 
 ## 🏗️ Arquitectura
