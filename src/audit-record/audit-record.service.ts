@@ -8,7 +8,6 @@ import { AiAnalysis } from 'src/ai/entities/ai-analysis.entity';
 import { User } from 'src/auth/entities/user.entity';
 import { getPlainAuditRecord } from './helpers/getPlainAuditRecord';
 import { PaginationDto } from 'src/common/dtos/paginatios.dto';
-import { of } from 'rxjs';
 import { ResponseAuditRecordDto } from './dto/response-audit-record.dto';
 
 @Injectable()
@@ -23,11 +22,11 @@ export class AuditRecordService {
 
   }
   private readonly logger = new Logger(AuditRecordService.name)
-  
+
 
   async findAll(paginationDto: PaginationDto): Promise<ResponseAuditRecordDto[]> {
 
-    const {limit = 5, offset = 0} = paginationDto
+    const { limit = 5, offset = 0 } = paginationDto
 
     const auditRecords = await this.auditRecordRepository.find({
       take: limit,
@@ -43,7 +42,7 @@ export class AuditRecordService {
   async findOne(id: number): Promise<AuditRecord> {
 
     const auditRecord = await this.auditRecordRepository.findOne({
-      where: {id},
+      where: { id },
       relations: ['file', 'user', 'aiAnalysis']
     })
 
@@ -55,15 +54,15 @@ export class AuditRecordService {
 
   async findByUser(user: User, paginationDto: PaginationDto): Promise<AuditRecord[]> {
 
-    const {id} = user
-    const {limit = 5 , offset = 0} = paginationDto
+    const { id } = user
+    const { limit = 5, offset = 0 } = paginationDto
 
 
     const userAuditRecord = await this.auditRecordRepository.find({
       take: limit,
       skip: offset,
       relations: ['file'],
-      where: {user: {id}}
+      where: { user: { id } }
     })
 
     return userAuditRecord
@@ -72,14 +71,14 @@ export class AuditRecordService {
 
   async create(createAuditRecordDto: CreateAuditRecordDto, user: User): Promise<ResponseAuditRecordDto> {
 
-    const {notes, status, fileId} = createAuditRecordDto 
+    const { notes, status, fileId } = createAuditRecordDto
 
     const aiAnalysis = await this.aiAnalysisRepository.findOne({
-      where: {text_extraction: {file: {id: fileId}}}
+      where: { text_extraction: { file: { id: fileId } } }
     })
     if (!aiAnalysis) throw new BadRequestException(`File with id ${fileId} was not found`)
 
-    const file = aiAnalysis.text_extraction.file 
+    const file = aiAnalysis.text_extraction.file
 
     const auditRecord = this.auditRecordRepository.create({
       notes,
@@ -93,27 +92,26 @@ export class AuditRecordService {
       const plainAuditRecord = getPlainAuditRecord(auditRecord)
       return plainAuditRecord
 
-    } catch (error ){
-      console.error(error)
+    } catch (error) {
       this.handleDbExceptions(error)
     }
   }
 
   async update(id: number, updateAuditRecordDto: UpdateAuditRecordDto): Promise<AuditRecord> {
 
-        const auditRecord = await this.auditRecordRepository.preload({
-          id,
-          ...updateAuditRecordDto
-        })
-        if (!auditRecord) throw new NotFoundException(`Audit record with id ${id} was not found`)
+    const auditRecord = await this.auditRecordRepository.preload({
+      id,
+      ...updateAuditRecordDto
+    })
+    if (!auditRecord) throw new NotFoundException(`Audit record with id ${id} was not found`)
 
-        try {
-          await this.auditRecordRepository.save(auditRecord)
-          return auditRecord
-        } catch (error ) {
-          this.handleDbExceptions(error)
-        }
-      
+    try {
+      await this.auditRecordRepository.save(auditRecord)
+      return auditRecord
+    } catch (error) {
+      this.handleDbExceptions(error)
+    }
+
   }
 
   async delete(id: number): Promise<void> {
