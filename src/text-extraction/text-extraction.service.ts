@@ -1,4 +1,4 @@
-import * as fs from 'fs'
+import { promises as fs } from 'fs'
 import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import * as pdfParse from 'pdf-parse'
 import { FilesService } from 'src/files/files.service';
@@ -21,7 +21,7 @@ export class TextExtractionService {
     @InjectRepository(TextExtraction)
     private readonly textExtractionRepository: Repository<TextExtraction>,
   ) {
-    
+
   }
   private readonly logger = new Logger(TextExtractionService.name)
 
@@ -29,7 +29,7 @@ export class TextExtractionService {
   async findTextExtractionByFileId(id: number): Promise<TextExtraction> {
 
     const textExtraction = await this.textExtractionRepository.findOne({
-      where: {file: {id}},
+      where: { file: { id } },
       loadRelationIds: true
     })
 
@@ -38,22 +38,22 @@ export class TextExtractionService {
     return textExtraction
   }
 
-async getFileInfo(id: number, fileType: FileType) {
+  async getFileInfo(id: number, fileType: FileType) {
     const file = await this.fileService.findOne(id)
 
     const path = getStaticFileName(file.filename)
 
     if (file.type !== fileType) throw new BadRequestException(`File with id ${file.id} is not a ${fileType}`)
 
-    return {path, file}
+    return { path, file }
   }
 
   async parsePdf(id: number): Promise<TextExtraction> {
 
-    const {file, path} = await this.getFileInfo(id, FileType.pdf)
+    const { file, path } = await this.getFileInfo(id, FileType.pdf)
 
-    const dataBuffer = fs.readFileSync(path)
-    const {text} =  await pdfParse(dataBuffer)
+    const dataBuffer = await fs.readFile(path)
+    const { text } = await pdfParse(dataBuffer)
 
 
     const textExtraction = this.textExtractionRepository.create({
@@ -63,23 +63,23 @@ async getFileInfo(id: number, fileType: FileType) {
     try {
       await this.textExtractionRepository.save(textExtraction)
       return textExtraction
-    } catch(error) {
+    } catch (error) {
       this.handleDbExceptions(error)
     }
   }
 
   async parseDocx(id: number): Promise<TextExtraction> {
 
-    const {path, file} = await this.getFileInfo(id, FileType.docx)
-    
+    const { path, file } = await this.getFileInfo(id, FileType.docx)
+
     const text = await mammoth.extractRawText({ path });
 
     if (!text) throw new InternalServerErrorException(`Couldnt parse file with name: ${file.filename} and extension: ${file.type}. Check server logs`)
-    
-      const textExtraction = this.textExtractionRepository.create({
-        raw_text: cleanText(text.value),
-        file
-      })
+
+    const textExtraction = this.textExtractionRepository.create({
+      raw_text: cleanText(text.value),
+      file
+    })
 
     try {
       await this.textExtractionRepository.save(textExtraction)
@@ -92,9 +92,9 @@ async getFileInfo(id: number, fileType: FileType) {
 
   async parseCsv(id: number): Promise<TextExtraction> {
 
-    const {path, file } = await this.getFileInfo(id, FileType.csv)
+    const { path, file } = await this.getFileInfo(id, FileType.csv)
 
-    const csvText = fs.readFileSync(path, 'latin1')
+    const csvText = await fs.readFile(path, 'latin1')
 
     if (!csvText) throw new BadRequestException(`Couldnt parse csv with id ${id}`)
 
@@ -106,7 +106,7 @@ async getFileInfo(id: number, fileType: FileType) {
     try {
       await this.textExtractionRepository.save(textExtraction)
       return textExtraction
-    } catch(error) {
+    } catch (error) {
       this.handleDbExceptions(error)
     }
 
@@ -114,9 +114,9 @@ async getFileInfo(id: number, fileType: FileType) {
 
   async parseExcel(id: number): Promise<TextExtraction> {
 
-    const {path, file} = await this.getFileInfo(id, FileType.xlsx)
+    const { path, file } = await this.getFileInfo(id, FileType.xlsx)
 
-    const fileBuffer = fs.readFileSync(path);
+    const fileBuffer = await fs.readFile(path);
 
     const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
 
@@ -126,7 +126,7 @@ async getFileInfo(id: number, fileType: FileType) {
       const worksheet = workbook.Sheets[sheetName];
       const csvData = XLSX.utils.sheet_to_csv(worksheet);
 
-      data += `\nHoja: ${sheetName}\n` +  csvData
+      data += `\nHoja: ${sheetName}\n` + csvData
 
     });
 
@@ -138,26 +138,26 @@ async getFileInfo(id: number, fileType: FileType) {
     try {
       await this.textExtractionRepository.save(textExtraction)
       return textExtraction
-    } catch(error) {
+    } catch (error) {
       this.handleDbExceptions(error)
     }
   }
 
-  
+
   async parseFile(id: number, fileType: FileType): Promise<TextExtraction> {
-  switch (fileType) {
-    case FileType.pdf:
-      return this.parsePdf(id);
-    case FileType.docx:
-      return this.parseDocx(id);
-    case FileType.csv:
-      return this.parseCsv(id);
-    case FileType.xlsx:
-      return this.parseExcel(id);
-    default:
-      throw new BadRequestException(`Unsupported file type: ${fileType}`);
+    switch (fileType) {
+      case FileType.pdf:
+        return this.parsePdf(id);
+      case FileType.docx:
+        return this.parseDocx(id);
+      case FileType.csv:
+        return this.parseCsv(id);
+      case FileType.xlsx:
+        return this.parseExcel(id);
+      default:
+        throw new BadRequestException(`Unsupported file type: ${fileType}`);
+    }
   }
-}
 
   async findOne(id: number): Promise<TextExtraction> {
 
@@ -173,7 +173,6 @@ async getFileInfo(id: number, fileType: FileType) {
   handleDbExceptions(error: any): never {
     this.logger.error('DB Exception', error.stack);
     if (error.code === '23505') throw new BadRequestException(`Already parsed file with id: ${error.detail}. `)
-    console.log(error)
     throw new InternalServerErrorException(`Something went wrong check logs`)
   }
 
