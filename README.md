@@ -85,7 +85,33 @@ npm run lint
 npm run test
 ```
 
-## 📱 Capturas de Pantalla
+## � Servicio de Predicciones ML (Opcional)
+
+La funcionalidad de predicción de ventas requiere un servicio externo de Python con modelos de Machine Learning.
+
+**⚠️ Nota:** El proyecto funciona completamente sin este servicio. Las predicciones son una característica opcional.
+
+### Configuración del Servicio ML
+
+1. Clonar el repositorio del servicio ML:
+```bash
+git clone https://github.com/wonderiing/doc-audit-ml-prophet
+cd doc-audit-ml-prophet
+```
+
+2. Seguir las instrucciones de instalación del repositorio
+
+3. Configurar la variable de entorno en tu `.env`:
+```bash
+FORECAST_SERVICE_URL=http://localhost:8000
+```
+
+4. Levantar el servicio ML antes de usar la funcionalidad de predicciones
+
+**Sin el servicio ML:** Todas las demás funcionalidades (análisis de contratos, extracción de texto, auditoría) funcionarán normalmente.
+
+## �📱 Capturas de Pantalla
+
 
 ![Ios APP](/images/swift-version.jpeg)
 ![IOS APP](/images/swift-version-2.jpeg)
