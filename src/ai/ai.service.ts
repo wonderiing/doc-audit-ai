@@ -106,21 +106,9 @@ export class AiService {
     }
 
     const anonymizedText = anonymizeContract(textExtraction.raw_text);
-
     const aiResponse = await analyzeLegalContract(anonymizedText);
 
-    const aiAnalysis = this.aiAnalysisRepository.create({
-      ai_response: aiResponse,
-      text_extraction: textExtraction
-    });
-
-    try {
-      await this.aiAnalysisRepository.save(aiAnalysis);
-      const response = getPlainObject(aiAnalysis);
-      return response;
-    } catch (error) {
-      this.handleDbExceptions(error);
-    }
+    return this.saveAnalysis(aiResponse, textExtraction);
   }
 
 
@@ -136,16 +124,21 @@ export class AiService {
 
     const aiResponse = await analazyData(textExtraction.raw_text)
 
+    return this.saveAnalysis(aiResponse, textExtraction);
+  }
+
+  private async saveAnalysis(aiResponse: any, textExtraction: any): Promise<AiAnalysisResponseDto> {
     const aiAnalysis = this.aiAnalysisRepository.create({
       ai_response: aiResponse,
       text_extraction: textExtraction
-    })
+    });
+
     try {
-      await this.aiAnalysisRepository.save(aiAnalysis)
-      const response = getPlainObject(aiAnalysis)
-      return response
+      await this.aiAnalysisRepository.save(aiAnalysis);
+      const response = getPlainObject(aiAnalysis);
+      return response;
     } catch (error) {
-      this.handleDbExceptions(error)
+      this.handleDbExceptions(error);
     }
   }
 
