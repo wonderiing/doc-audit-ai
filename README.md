@@ -7,18 +7,18 @@
 
 
 
-# 🚀 Sistema de Análisis de Documentos Empresariales con IA
+# Sistema de Análisis de Documentos Empresariales con IA
 
 Una plataforma web desarrollada en NestJS enfocada en emprendedores y el ODS de crecimiento económico, que automatiza el análisis de documentos comerciales y legales mediante inteligencia artificial y machine learning.
 
-## 🎯 Propósito
+## Propósito
 Esta aplicación está diseñada para ayudar a emprendedores pequeños a:
 - Analizar sus documentos de ventas y generar predicciones futuras
 - Revisar contratos legales detectando cláusulas riesgosas
 - Obtener insights accionables de sus datos empresariales
 - Automatizar procesos de auditoría y análisis documental
 
-## 🔧 Características Principales
+## Características Principales
 
 **Módulo de Autenticación:** Sistema seguro con JWT y OAuth2 (Google), control de acceso basado en roles.
 
@@ -34,7 +34,7 @@ Esta aplicación está diseñada para ayudar a emprendedores pequeños a:
 
 **Módulo de Pipeline de Procesamiento:** Orquesta el flujo completo de procesamiento de documentos para una experiencia fluida.
 
-## 🛠️ Stack Tecnológico
+## Stack Tecnológico
 
 **Backend:** NestJS, TypeScript, TypeORM, PostgreSQL
 **Autenticación:** JWT, OAuth2 (Google), Passport
@@ -44,7 +44,7 @@ Esta aplicación está diseñada para ayudar a emprendedores pequeños a:
 **Validación:** Class-validator, Class-transformer
 **Seguridad:** Bcrypt, Guards personalizados, Decoradores de autorización
 
-## 🚀 Instalación y Configuración
+## Instalación y Configuración
 
 1. Instalar dependencias:
 ```bash
@@ -69,7 +69,7 @@ cp .env.example .env
 docker-compose up -d
 ```
 
-## 🏃‍♂️ Comandos de Desarrollo
+## Comandos de Desarrollo
 
 ```bash
 # Desarrollo
@@ -85,11 +85,11 @@ npm run lint
 npm run test
 ```
 
-## � Servicio de Predicciones ML (Opcional)
+## Servicio de Predicciones ML (Opcional)
 
 La funcionalidad de predicción de ventas requiere un servicio externo de Python con modelos de Machine Learning.
 
-**⚠️ Nota:** El proyecto funciona completamente sin este servicio. Las predicciones son una característica opcional.
+**Nota:** El proyecto funciona completamente sin este servicio. Las predicciones son una característica opcional.
 
 ### Configuración del Servicio ML
 
@@ -110,7 +110,7 @@ FORECAST_SERVICE_URL=http://localhost:8000
 
 **Sin el servicio ML:** Todas las demás funcionalidades (análisis de contratos, extracción de texto, auditoría) funcionarán normalmente.
 
-## �📱 Capturas de Pantalla
+## Capturas de Pantalla
 
 
 ![Ios APP](/images/swift-version.jpeg)
@@ -118,7 +118,7 @@ FORECAST_SERVICE_URL=http://localhost:8000
 
 *Aplicación móvil nativa para iOS*
 
-## 🏗️ Arquitectura
+## Arquitectura
 
 La aplicación sigue una arquitectura modular de NestJS con los siguientes módulos principales:
 
@@ -129,7 +129,7 @@ La aplicación sigue una arquitectura modular de NestJS con los siguientes módu
 - **AuditRecordModule:** Sistema de auditoría
 - **ProcessingPipelineModule:** Orquestación del flujo completo
 
-## 🎯 Impacto
+## Impacto
 
 Esta plataforma contribuye al **Objetivo de Desarrollo Sostenible 8: Trabajo decente y crecimiento económico** al:
 
