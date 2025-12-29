@@ -8,6 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { GoogleStrategy } from './strategies/google.strategy';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   controllers: [AuthController],
@@ -29,7 +30,13 @@ import { GoogleStrategy } from './strategies/google.strategy';
           }
         }
       }
-    })
+    }),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,  
+        limit: 3,  
+      },
+    ]),
 
   ],
   exports: [
